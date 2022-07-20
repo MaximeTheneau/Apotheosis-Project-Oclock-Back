@@ -2,13 +2,19 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category as EntityCategory;
+
+
 use App\Entity\User;
-use App\Model\Category;
 use DateTime;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Model\Category;
 use Doctrine\Persistence\ObjectManager;
+use App\Entity\Category as EntityCategory;
+use App\Entity\Ingredient as EntityIngredient;
+use App\Model\Ingredient;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+
 use Doctrine\DBAL\Connection;
+
 
 class AppFixtures extends Fixture
 {
@@ -56,6 +62,22 @@ class AppFixtures extends Fixture
             $manager->persist($category);
         }
 
+
+        
+        //---------------------------------------------------------
+        //                  Create Ingredients
+        //---------------------------------------------------------
+
+        $ingredientsModel = new Ingredient;
+
+        foreach ($ingredientsModel->ingredients as $name) {
+            $ingredient = new EntityIngredient;
+        
+            $ingredient->setName($name);
+            $ingredient->setCreatedAt(new DateTime());
+            $manager->persist($ingredient);
+        }
+
         //-----------------------------------------------------------------
         //                      Create Users
         //-----------------------------------------------------------------
@@ -75,6 +97,7 @@ class AppFixtures extends Fixture
         $user2->setRole('ROLE_USER');
         $user2->setCreatedAt(new DateTime());
         $manager->persist($user2);
+
 
 
         $manager->flush();
