@@ -2,11 +2,15 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category as EntityCategory;
-use App\Model\Category;
 use DateTime;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Model\Category;
+
+
 use Doctrine\Persistence\ObjectManager;
+use App\Entity\Category as EntityCategory;
+use App\Entity\Ingredient as EntityIngredient;
+use App\Model\Ingredient;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture
 {
@@ -28,6 +32,20 @@ class AppFixtures extends Fixture
             $manager->persist($category);
         }
 
+        
+        //---------------------------------------------------------
+        //                  Create Ingredients
+        //---------------------------------------------------------
+
+        $ingredientsModel = new Ingredient;
+
+        foreach ($ingredientsModel->ingredients as $name) {
+            $ingredient = new EntityIngredient;
+        
+            $ingredient->setName($name);
+            $ingredient->setCreatedAt(new DateTime());
+            $manager->persist($ingredient);
+        }
 
         $manager->flush();
     }
