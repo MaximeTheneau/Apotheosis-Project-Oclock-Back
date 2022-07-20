@@ -9,6 +9,7 @@ use DateTime;
 use App\Model\Category;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Category as EntityCategory;
+use App\Entity\Comment;
 use App\Entity\Ingredient as EntityIngredient;
 use App\Entity\Recipe as EntityRecipe;
 use App\Entity\RecipeIngredient;
@@ -49,6 +50,7 @@ class AppFixtures extends Fixture
         $this->connection->executeQuery('TRUNCATE TABLE ingredient');
         $this->connection->executeQuery('TRUNCATE TABLE recipe');
         $this->connection->executeQuery('TRUNCATE TABLE recipe_ingredient');
+        $this->connection->executeQuery('TRUNCATE TABLE comment');
         
 
         // We turn on checking foreign key contraint
@@ -128,6 +130,8 @@ class AppFixtures extends Fixture
 
         $recipesModel = new Recipe();
 
+        $recipes = [];
+
         foreach ($recipesModel->recipes as $recipe) {
             $newRecipe = new EntityRecipe();
 
@@ -153,6 +157,25 @@ class AppFixtures extends Fixture
             }
 
             $manager->persist($newRecipe);
+
+            $recipes[] = $newRecipe;
+        }
+
+
+        //-----------------------------------------------------------------
+        //                      Create Comments
+        //-----------------------------------------------------------------
+
+        foreach ($recipes as $recipe) {
+            
+            $newComment = new Comment();
+
+            $newComment->setContent('Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, cupiditate.');
+            $newComment->setUser($users[rand(0, count($users)-1)]);
+            $newComment->setRecipe($recipe);
+            $newComment->setCreatedAt(new DateTime());
+
+            $manager->persist($newComment);
 
         }
 
