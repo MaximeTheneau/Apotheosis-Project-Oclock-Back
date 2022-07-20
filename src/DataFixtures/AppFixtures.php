@@ -38,6 +38,7 @@ class AppFixtures extends Fixture
         // truncate tables
         $this->connection->executeQuery('TRUNCATE TABLE category');
         $this->connection->executeQuery('TRUNCATE TABLE user');
+        $this->connection->executeQuery('TRUNCATE TABLE ingredient');
 
         // We turn on checking foreign key contraint
         $this->connection->executeQuery('SET foreign_key_checks = 1');
