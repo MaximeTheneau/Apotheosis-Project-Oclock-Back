@@ -10,11 +10,14 @@ use App\Model\Category;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Category as EntityCategory;
 use App\Entity\Ingredient as EntityIngredient;
+use App\Entity\Recipe as EntityRecipe;
+use App\Entity\RecipeIngredient;
 use App\Model\Ingredient;
+use App\Model\Recipe;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
 use Doctrine\DBAL\Connection;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
@@ -25,9 +28,12 @@ class AppFixtures extends Fixture
      */
     private Connection $connection;
 
-    public function __construct(Connection $connection)
+    private SluggerInterface $slugger;
+
+    public function __construct(Connection $connection, SluggerInterface $slugger)
     {
         $this->connection = $connection;
+        $this->slugger = $slugger;
     }
 
     private function truncate(){
@@ -36,9 +42,14 @@ class AppFixtures extends Fixture
         $this->connection->executeQuery('SET foreign_key_checks = 0');
 
         // truncate tables
+
+        $this->connection->executeQuery('TRUNCATE TABLE user_recipe');
         $this->connection->executeQuery('TRUNCATE TABLE category');
         $this->connection->executeQuery('TRUNCATE TABLE user');
         $this->connection->executeQuery('TRUNCATE TABLE ingredient');
+        $this->connection->executeQuery('TRUNCATE TABLE recipe');
+        $this->connection->executeQuery('TRUNCATE TABLE recipe_ingredient');
+        
 
         // We turn on checking foreign key contraint
         $this->connection->executeQuery('SET foreign_key_checks = 1');
@@ -55,12 +66,15 @@ class AppFixtures extends Fixture
 
         $categoriesModel = new Category;
         
+        $categories = [];
         foreach ($categoriesModel->categories as $name) {
             $category = new EntityCategory;
 
             $category->setName($name);
             $category->setCreatedAt(new DateTime());
             $manager->persist($category);
+
+            $categories[] = $category;
         }
 
 
@@ -71,17 +85,21 @@ class AppFixtures extends Fixture
 
         $ingredientsModel = new Ingredient;
 
+        $ingredients = [];
         foreach ($ingredientsModel->ingredients as $name) {
             $ingredient = new EntityIngredient;
         
             $ingredient->setName($name);
             $ingredient->setCreatedAt(new DateTime());
             $manager->persist($ingredient);
+            $ingredients[] = $ingredient;
         }
 
         //-----------------------------------------------------------------
         //                      Create Users
         //-----------------------------------------------------------------
+
+        $users = [];
 
         $user1 = new User;
         $user1->setPseudo('User1');
@@ -91,6 +109,8 @@ class AppFixtures extends Fixture
         $user1->setCreatedAt(new DateTime());
         $manager->persist($user1);
 
+        $users[] = $user1;
+
         $user2 = new User;
         $user2->setPseudo('User2');
         $user2->setEmail(('user2@user.com'));
@@ -99,7 +119,42 @@ class AppFixtures extends Fixture
         $user2->setCreatedAt(new DateTime());
         $manager->persist($user2);
 
+        $users[] = $user2;
 
+
+        //-----------------------------------------------------------------
+        //                      Create Recipes
+        //-----------------------------------------------------------------
+
+        $recipesModel = new Recipe();
+
+        foreach ($recipesModel->recipes as $recipe) {
+            $newRecipe = new EntityRecipe();
+
+            $newRecipe->setTitle($recipe['title']);
+            $newRecipe->setCaption($recipe['caption']);
+            $newRecipe->setSlug($this->slugger->slug($recipe['title']));
+            $newRecipe->setSteps($recipe['steps']);
+            $newRecipe->setDuration($recipe['duration']);
+            $newRecipe->setDifficulty($recipe['difficulty']);
+            $newRecipe->setCreatedAt(new DateTime());
+            $newRecipe->setCategory($categories[$recipe["category"]-1]);
+            $newRecipe->setUser($users[rand(0, count($users)-1)]);
+
+            foreach ($recipe['recipeIngredients'] as $ingredient) {
+                $recipeIngredient = new RecipeIngredient();
+
+                $recipeIngredient->setRecipe($newRecipe);
+                $recipeIngredient->setIngredient($ingredients[$ingredient["ingredientId"]-1]);
+                $recipeIngredient->setUnit($ingredient["unit"]);
+                $recipeIngredient->setQuantity($ingredient["quantity"]);
+
+                $manager->persist($recipeIngredient);
+            }
+
+            $manager->persist($newRecipe);
+
+        }
 
         $manager->flush();
     }
