@@ -18,6 +18,7 @@ use App\Model\Recipe;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
 use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
@@ -31,10 +32,21 @@ class AppFixtures extends Fixture
 
     private SluggerInterface $slugger;
 
-    public function __construct(Connection $connection, SluggerInterface $slugger)
+    /**
+     * We need to have KernelInterface to get the Project Dir
+     *
+     * @var KernelInterface
+     */
+    private KernelInterface $kernel;
+
+    public function __construct(
+        Connection $connection, 
+        SluggerInterface $slugger,
+        KernelInterface $kernel)
     {
         $this->connection = $connection;
         $this->slugger = $slugger;
+        $this->kernel = $kernel;
     }
 
     private function truncate(){
@@ -132,6 +144,8 @@ class AppFixtures extends Fixture
 
         $recipes = [];
 
+        // We create Id Recipe to manage easier picture's url
+        $recipeId = 1;
         foreach ($recipesModel->recipes as $recipe) {
             $newRecipe = new EntityRecipe();
 
@@ -144,6 +158,13 @@ class AppFixtures extends Fixture
             $newRecipe->setCreatedAt(new DateTime());
             $newRecipe->setCategory($categories[$recipe["category"]-1]);
             $newRecipe->setUser($users[rand(0, count($users)-1)]);
+
+            // Get the project directory
+            $basePath = $this->kernel->getProjectDir();
+
+            // Generate picture's url to set picture's recipe
+            $newRecipe->setPicture($basePath."/sources/images/recipe/recipe_".$recipeId.".png");
+            $recipeId++;
 
             foreach ($recipe['recipeIngredients'] as $ingredient) {
                 $recipeIngredient = new RecipeIngredient();
