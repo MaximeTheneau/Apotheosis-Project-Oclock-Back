@@ -20,6 +20,7 @@ class Recipe
      * @ORM\Column(type="integer")
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $id;
 
@@ -27,21 +28,25 @@ class Recipe
      * @ORM\Column(type="string", length=255)
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("api_recipes_read")
      */
     private $caption;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("api_recipes_read")
      */
     private $slug;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("api_recipes_read")
      */
     private $steps = [];
 
@@ -49,6 +54,7 @@ class Recipe
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $picture;
 
@@ -56,16 +62,21 @@ class Recipe
      * @ORM\Column(type="smallint", nullable=true, options={"unsigned":true, "default":0})
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $nbMiams;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true})
+     * 
+     * @Groups("api_recipes_read")
      */
     private $duration;
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true})
+     * 
+     * @Groups("api_recipes_read")
      */
     private $difficulty;
 
@@ -84,6 +95,7 @@ class Recipe
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $category;
 
@@ -92,6 +104,7 @@ class Recipe
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $user;
 
@@ -102,11 +115,15 @@ class Recipe
 
     /**
      * @ORM\OneToMany(targetEntity=RecipeIngredient::class, mappedBy="recipe", orphanRemoval=true)
+     * 
+     * @Groups("api_recipes_read")
      */
     private $recipeIngredients;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="recipe", orphanRemoval=true)
+     * 
+     * @Groups("api_recipes_read")
      */
     private $comments;
 

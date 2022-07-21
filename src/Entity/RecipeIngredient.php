@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\RecipeIngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RecipeIngredientRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=RecipeIngredientRepository::class)
@@ -14,16 +15,21 @@ class RecipeIngredient
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=32)
+     * 
+     * @Groups("api_recipes_read")
      */
     private $unit;
 
     /**
      * @ORM\Column(type="smallint")
+     * 
+     * @Groups("api_recipes_read")
      */
     private $quantity;
 
@@ -36,6 +42,8 @@ class RecipeIngredient
     /**
      * @ORM\ManyToOne(targetEntity=Ingredient::class, inversedBy="recipeIngredients")
      * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups("api_recipes_read")
      */
     private $ingredient;
 

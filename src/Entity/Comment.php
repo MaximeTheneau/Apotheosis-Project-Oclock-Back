@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommentRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -14,11 +15,15 @@ class Comment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("api_recipes_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * 
+     * @Groups("api_recipes_read")
      */
     private $content;
 
@@ -41,6 +46,8 @@ class Comment
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups("api_recipes_read")
      */
     private $user;
 
