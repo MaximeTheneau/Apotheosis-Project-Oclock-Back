@@ -39,6 +39,33 @@ class RecipeRepository extends ServiceEntityRepository
         }
     }
 
+    public function findMostMiamsRecipes()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.nbMiams', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLastRecipes()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.createdAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findRandomRecipes()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('RAND()')
+            ->setMaxResults(2)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Recipe[] Returns an array of Recipe objects
 //     */
