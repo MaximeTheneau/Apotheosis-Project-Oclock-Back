@@ -158,6 +158,7 @@ class AppFixtures extends Fixture
             $newRecipe->setCreatedAt(new DateTime());
             $newRecipe->setCategory($categories[$recipe["category"]-1]);
             $newRecipe->setUser($users[rand(0, count($users)-1)]);
+            $newRecipe->setNbMiams(rand(0, 15));
 
             // Get the project directory
             $basePath = $this->kernel->getProjectDir();
