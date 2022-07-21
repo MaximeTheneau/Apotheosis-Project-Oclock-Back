@@ -150,7 +150,7 @@ class AppFixtures extends Fixture
             $newRecipe = new EntityRecipe();
 
             $newRecipe->setTitle($recipe['title']);
-            $newRecipe->setCaption($recipe['caption']);
+            $newRecipe->setCaption($recipe['caption'] ?? null);
             $newRecipe->setSlug($this->slugger->slug($recipe['title']));
             $newRecipe->setSteps($recipe['steps']);
             $newRecipe->setDuration($recipe['duration']);

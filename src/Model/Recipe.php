@@ -52,6 +52,88 @@ class Recipe
                 ]
             ]
 
+        ],
+        [
+            "title" => "Omelette nature",
+            "steps" => [
+                "etape 1" => "Battez les oeufs à la fourchette, salez et poivrez.",
+                "etape 2" => "Faites chauffer le beurre, versez-en un peu dans les oeufs et mélangez. Versez les oeufs dans la poêle à feu vif, baissez le feu et laissez cuire doucement en ramenant les bords de l'omelette au centre au fur et à mesure qu'ils prennent.",
+                "etape 3" => "Secouez un peu la poêle pour éviter que l'omelette n'attache, vérifiez la texture baveuse ou bien prise.",
+                "etape 4" => "Pliez l'omelette en deux et servez"
+            ],
+            "duration" => 15,
+            "difficulty" => 1,
+            "category" => 2,
+            "recipeIngredients" => [
+                [
+                    "ingredientId" => 3,
+                    "unit" => "gr",
+                    "quantity" => 50
+                ],
+                [
+                    "ingredientId" => 20,
+                    "unit" => "pincée",
+                    "quantity" => 1
+                ],
+                [
+                    "ingredientId" => 8,
+                    "unit" => "pincée",
+                    "quantity" => 1
+                ],
+                [
+                    "ingredientId" => 6,
+                    "unit" => "nombre",
+                    "quantity" => 7
+                ]
+            ]
+
+        ],
+        [
+            "title" => "Mojito",
+            "caption" => "Découvrez la recette du Mojito, la star des cocktails de l'été grâce à sa menthe parfumée et son irrésistible fraîcheur.",
+            "steps" => [
+                "etape 1" => "Dans un verre, écrasez les feuilles de menthe au pilon dans le rhum",
+                "etape 2" => "Ajoutez le sucre et le jus de citron et mélangez.",
+                "etape 3" => "Pilez les glaçons",
+                "etape 4" => "Terminez en rajoutant l'eau gazeuse et les glaçons pilés"
+            ],
+            "duration" => 5,
+            "difficulty" => 1,
+            "category" => 1,
+            "recipeIngredients" => [
+                [
+                    "ingredientId" => 21,
+                    "unit" => "cl",
+                    "quantity" => 5
+                ],
+                [
+                    "ingredientId" => 22,
+                    "unit" => "feuille",
+                    "quantity" => 7
+                ],
+                [
+                    "ingredientId" => 26,
+                    "unit" => "cl",
+                    "quantity" => 0.5
+                ],
+                [
+                    "ingredientId" => 4,
+                    "unit" => "cuillère à café",
+                    "quantity" => 2
+                ],
+                [
+                    "ingredientId" => 23,
+                    "unit" => "cl",
+                    "quantity" => 6
+                ],
+                [
+                    "ingredientId" => 25,
+                    "unit" => "nombre",
+                    "quantity" => 4
+                ]
+            ]
+
         ]
+
     ];
 }

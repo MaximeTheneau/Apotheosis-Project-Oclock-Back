@@ -23,6 +23,13 @@ class Ingredient {
         'riz',
         'pâte',
         'persil',
-        'moutarde'
+        'moutarde',
+        'poivre',
+        'rhum blanc',
+        'menthe',
+        'eau gazeuse',
+        'citron vert',
+        'glaçon',
+        'jus de citron'
     ];
 }
