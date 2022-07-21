@@ -20,6 +20,7 @@ class User
      * @ORM\Column(type="integer")
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $id;
 
@@ -27,6 +28,7 @@ class User
      * @ORM\Column(type="string", length=64, unique=true)
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $pseudo;
 
@@ -74,6 +76,7 @@ class User
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $avatar;
 

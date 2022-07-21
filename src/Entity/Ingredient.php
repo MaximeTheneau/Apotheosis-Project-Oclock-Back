@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\IngredientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\RecipeIngredient;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\IngredientRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=IngredientRepository::class)
@@ -16,11 +18,15 @@ class Ingredient
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("api_recipes_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * 
+     * @Groups("api_recipes_read")
      */
     private $name;
 
