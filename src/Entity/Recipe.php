@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
  */
@@ -16,11 +18,15 @@ class Recipe
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $title;
 
@@ -41,11 +47,15 @@ class Recipe
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $picture;
 
     /**
      * @ORM\Column(type="smallint", nullable=true, options={"unsigned":true, "default":0})
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $nbMiams;
 
@@ -72,12 +82,16 @@ class Recipe
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="recipes")
      * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes")
      * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $user;
 

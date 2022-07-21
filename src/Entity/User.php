@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
@@ -16,11 +18,15 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $pseudo;
 
@@ -66,6 +72,8 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("api_recipes_browse")
      */
     private $avatar;
 
