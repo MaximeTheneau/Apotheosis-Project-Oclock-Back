@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -26,6 +28,17 @@ class Recipe
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\NotBlank(
+     *      message = "Le champ Titre ne doit pas être vide"
+     * )
+     * 
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 32,
+     *      minMessage = "Le Titre doit comporter au minimum {{ limit }} caractères",
+     *      maxMessage = "Le Titre doit comporter au maximum {{ limit }} caractères"
+     * )
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
@@ -114,7 +127,7 @@ class Recipe
     private $usersWhoFavorized;
 
     /**
-     * @ORM\OneToMany(targetEntity=RecipeIngredient::class, mappedBy="recipe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=RecipeIngredient::class, mappedBy="recipe", orphanRemoval=true, cascade={"persist"})
      * 
      * @Groups("api_recipes_read")
      */

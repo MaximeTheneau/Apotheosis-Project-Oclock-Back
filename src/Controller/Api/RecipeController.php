@@ -4,11 +4,18 @@ namespace App\Controller\Api;
 
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
+use DateTime;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface as StorageTokenStorageInterface;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/api/recipes", name="app_api_recipes_")
@@ -16,15 +23,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class RecipeController extends ApiController
 {
     private $recipeRepository;
+    private $serializer;
+    private $tokenService;
+    private $validator;
+    private $slugger;
     
-    public function __construct(RecipeRepository $recipeRepository)
-    {
+    public function __construct(
+        RecipeRepository $recipeRepository,
+        SerializerInterface $serializer,
+        StorageTokenStorageInterface $token,
+        ValidatorInterface $validator,
+        SluggerInterface $slugger
+    ) {
         $this->recipeRepository = $recipeRepository;
+        $this->serializer = $serializer;
+        $this->tokenService = $token;
+        $this->validator = $validator;
+        $this->slugger = $slugger;
     }
     
     
     /**
-     * @Route("", name="browse")
+     * @Route("", name="browse", methods={"GET"})
      */
     public function browse(): JsonResponse
     {
@@ -78,5 +98,40 @@ class RecipeController extends ApiController
         }
 
         return $this->json200($searchRecipes, "api_recipes_browse");
+    }
+
+    /**
+     * @Route("", name="add", methods={"POST"})
+     */
+    public function add(Request $request): JsonResponse
+    {
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->json403();
+        }
+
+        $jsonContent = $request->getContent();
+
+        try {
+            $newRecipe = $this->serializer->deserialize($jsonContent, Recipe::class, 'json');
+        } catch (Exception $e) {
+            return $this->json400();
+        }
+
+        $user = $this->tokenService->getToken()->getUser();
+
+        $newRecipe->setUser($user);
+        $newRecipe->setNbMiams(0);
+        $newRecipe->setCreatedAt(new DateTime());
+        $newRecipe->setSlug($this->slugger->slug($newRecipe->getTitle()));
+
+        $errors = $this->validator->validate($newRecipe);
+
+        if (count($errors) > 0) {
+            return $this->json422($errors, $newRecipe, "api_recipes_read");
+        }
+
+        $this->recipeRepository->add($newRecipe, true);
+
+        return $this->json201($newRecipe, "api_recipes_read");
     }
 }

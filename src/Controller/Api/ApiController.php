@@ -37,10 +37,7 @@ class ApiController extends AbstractController
         return $this->json(
             $data,
             201,
-            [
-                // Nom de l'en-tête + URL
-                'Location' => $this->generateUrl($group, ['id' => $data->getId()])
-            ],
+            [],
             [
                 "groups" =>
                 [
@@ -93,7 +90,8 @@ class ApiController extends AbstractController
         $error = new JsonMessage('Vous n\'avez pas les droits', 403);
 
         return $this->json(
-            $error
+            $error,
+            403
         );
     }
 }
