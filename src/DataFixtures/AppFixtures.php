@@ -119,7 +119,7 @@ class AppFixtures extends Fixture
         $user1->setPseudo('User1');
         $user1->setEmail(('user1@user.com'));
         $user1->setPassword('$2y$13$6WRvlR2gUMEpi2.VGBvpu.B4QLgmpPfSHqRAHSsJRTB9kkdpoMzY6'); // password : user1
-        $user1->setRole('ROLE_USER');
+        $user1->setRoles(['ROLE_USER']);
         $user1->setCreatedAt(new DateTime());
         $manager->persist($user1);
 
@@ -129,7 +129,7 @@ class AppFixtures extends Fixture
         $user2->setPseudo('User2');
         $user2->setEmail(('user2@user.com'));
         $user2->setPassword('$2y$13$/I815Wmp/zxUVLboMLk.zOZwLJwkOoohP0lSvkga7V/W2APDuHfBa'); // password : user2
-        $user2->setRole('ROLE_USER');
+        $user2->setRoles(['ROLE_USER']);
         $user2->setCreatedAt(new DateTime());
         $manager->persist($user2);
 

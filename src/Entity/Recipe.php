@@ -132,6 +132,7 @@ class Recipe
         $this->users = new ArrayCollection();
         $this->recipeIngredients = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->usersWhoFavorized = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -365,6 +366,33 @@ class Recipe
             if ($comment->getRecipe() === $this) {
                 $comment->setRecipe(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsersWhoFavorized(): Collection
+    {
+        return $this->usersWhoFavorized;
+    }
+
+    public function addUsersWhoFavorized(User $usersWhoFavorized): self
+    {
+        if (!$this->usersWhoFavorized->contains($usersWhoFavorized)) {
+            $this->usersWhoFavorized[] = $usersWhoFavorized;
+            $usersWhoFavorized->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersWhoFavorized(User $usersWhoFavorized): self
+    {
+        if ($this->usersWhoFavorized->removeElement($usersWhoFavorized)) {
+            $usersWhoFavorized->removeFavorite($this);
         }
 
         return $this;
