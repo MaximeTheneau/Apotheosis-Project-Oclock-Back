@@ -39,7 +39,6 @@ class RecipeController extends ApiController
     public function read(?Recipe $recipe)
     {
         if ($recipe === null) {
-
             return $this->json404();
         }
 
@@ -70,30 +69,14 @@ class RecipeController extends ApiController
      */
     public function search(Request $request)
     {
-        
         $search = $request->query->get('query');
 
         $searchRecipes = $this->recipeRepository->search($search);
         // dd($searchRecipes);
-        if($search === "")
-            {
-            return $this->json(
-                [
-                    "erreur" => "Pas de résultats",
-                    "code_error" => 404
-                ],
-                Response::HTTP_NOT_FOUND,
-            );
-            }
-        return $this->json(
-            $searchRecipes,
-            Response::HTTP_OK,
-            [],
-            [
-                "groups" =>
-                [
-                    "api_recipes_browse"
-                ]
-            ]);
+        if ($search === "") {
+            return $this->json404();
+        }
+
+        return $this->json200($searchRecipes, "api_recipes_browse");
     }
 }
