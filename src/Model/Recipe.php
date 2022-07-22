@@ -133,7 +133,54 @@ class Recipe
                 ]
             ]
 
-        ]
+            ],
+            [
+                "title" => "Bamoto",
+                "caption" => "Découvrez la recette du Mojito, la star des cocktails de l'été grâce à sa menthe parfumée et son irrésistible fraîcheur.",
+                "steps" => [
+                    "etape 1" => "Dans un verre, écrasez les feuilles de menthe au pilon dans le rhum",
+                    "etape 2" => "Ajoutez le sucre et le jus de citron et mélangez.",
+                    "etape 3" => "Pilez les glaçons",
+                    "etape 4" => "Terminez en rajoutant l'eau gazeuse et les glaçons pilés"
+                ],
+                "duration" => 5,
+                "difficulty" => 1,
+                "category" => 1,
+                "recipeIngredients" => [
+                    [
+                        "ingredientId" => 21,
+                        "unit" => "cl",
+                        "quantity" => 5
+                    ],
+                    [
+                        "ingredientId" => 22,
+                        "unit" => "feuille",
+                        "quantity" => 7
+                    ],
+                    [
+                        "ingredientId" => 26,
+                        "unit" => "cl",
+                        "quantity" => 0.5
+                    ],
+                    [
+                        "ingredientId" => 4,
+                        "unit" => "cuillère à café",
+                        "quantity" => 2
+                    ],
+                    [
+                        "ingredientId" => 23,
+                        "unit" => "cl",
+                        "quantity" => 6
+                    ],
+                    [
+                        "ingredientId" => 25,
+                        "unit" => "nombre",
+                        "quantity" => 4
+                    ]
+                ]
+    
+            ]
+
 
     ];
 }

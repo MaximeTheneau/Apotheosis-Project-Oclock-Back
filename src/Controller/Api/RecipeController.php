@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/api/recipes", name="app_api_recipes_")
  */
-class RecipeController extends AbstractController
+class RecipeController extends ApiController
 {
     private $recipeRepository;
     
@@ -30,17 +30,8 @@ class RecipeController extends AbstractController
     public function browse(): JsonResponse
     {
         $allRecipes = $this->recipeRepository->findAll();
-        return $this->json(
-            $allRecipes,
-            Response::HTTP_OK,
-            [],
-            [
-                "groups" =>
-                [
-                    "api_recipes_browse"
-                ]
-            ]
-        );
+
+        return $this->json200($allRecipes, "api_recipes_browse");
     }
 
     /**
@@ -48,27 +39,32 @@ class RecipeController extends AbstractController
      */
     public function read(?Recipe $recipe)
     {
-        if ($recipe === null)
-        {
-        return $this->json(
-            [
-                "erreur" => "La recette n'existe pas",
-                "code_error" => 404
-            ],
-            Response::HTTP_NOT_FOUND,
-        );
+        if ($recipe === null) {
+
+            return $this->json404();
+        }
+
+        return $this->json200($recipe, "api_recipes_read");
     }
-    return $this->json(
-        $recipe,
-        Response::HTTP_OK,
-        [],
-        [
-            "groups" =>
-            [
-                "api_recipes_read"
-            ]
-        ]);
+
+    /**
+     * @Route("/categories/{category_id}/search", name="search_with_category_id", methods={"GET"})
+     */
+    public function searchWithCategoryId(int $category_id, Request $request)
+    {
+        $search = $request->query->get('query');
+
+        if ($search !== "") {
+            $data = $this->recipeRepository->searchWithCategory($category_id, $search);
+        } else {
+            $data = $this->recipeRepository->findBy(
+                ['category' => $category_id]
+            );
+        }
+
+        return $this->json200($data, "api_recipes_browse");
     }
+
 
     /**
      * @Route("/search", name="search", methods={"GET"})

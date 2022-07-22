@@ -75,6 +75,23 @@ class RecipeRepository extends ServiceEntityRepository
             ->setParameter(':search', "%{$searched}%")
             ->getQuery()
             ->getResult();
+}
+
+    public function searchWithCategory(int $categoryId, string $search)
+    {
+        $query = $this->createQueryBuilder('r');
+        
+        return $query->where(
+            $query->expr()->andX(
+                $query->expr()->eq('r.category', ':categoryId'),
+                $query->expr()->like('r.title', ':search')
+            )
+        )
+                    ->setParameter(':categoryId', $categoryId)
+                    ->setParameter(':search', "%{$search}%")
+                    ->getQuery()
+                    ->getResult();
+
     }
 
 //    /**
