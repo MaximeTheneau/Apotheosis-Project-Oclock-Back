@@ -66,6 +66,17 @@ class RecipeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function search(string $searched)
+    {
+        $query = $this->createQueryBuilder('r');
+        return $query->where(
+            $query->expr()->like('r.title', ':search')
+            )
+            ->setParameter(':search', "%{$searched}%")
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Recipe[] Returns an array of Recipe objects
 //     */

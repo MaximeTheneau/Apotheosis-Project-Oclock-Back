@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,7 +44,7 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="read", methods={"GET"})
+     * @Route("/{id}", name="read", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function read(?Recipe $recipe)
     {
@@ -67,5 +68,37 @@ class RecipeController extends AbstractController
                 "api_recipes_read"
             ]
         ]);
+    }
+
+    /**
+     * @Route("/search", name="search", methods={"GET"})
+     */
+    public function search(Request $request)
+    {
+        
+        $search = $request->query->get('query');
+
+        $searchRecipes = $this->recipeRepository->search($search);
+        // dd($searchRecipes);
+        if($search === "")
+            {
+            return $this->json(
+                [
+                    "erreur" => "Pas de résultats",
+                    "code_error" => 404
+                ],
+                Response::HTTP_NOT_FOUND,
+            );
+            }
+        return $this->json(
+            $searchRecipes,
+            Response::HTTP_OK,
+            [],
+            [
+                "groups" =>
+                [
+                    "api_recipes_browse"
+                ]
+            ]);
     }
 }
