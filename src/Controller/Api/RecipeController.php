@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @Route("/api/recipes", name="app_api_recipes_")
  */
-class RecipeController extends AbstractController
+class RecipeController extends ApiController
 {
     private $recipeRepository;
     
@@ -29,17 +29,8 @@ class RecipeController extends AbstractController
     public function browse(): JsonResponse
     {
         $allRecipes = $this->recipeRepository->findAll();
-        return $this->json(
-            $allRecipes,
-            Response::HTTP_OK,
-            [],
-            [
-                "groups" =>
-                [
-                    "api_recipes_browse"
-                ]
-            ]
-        );
+
+        return $this->json200($allRecipes, "api_recipes_browse");
     }
 
     /**
@@ -48,25 +39,11 @@ class RecipeController extends AbstractController
     public function read(?Recipe $recipe)
     {
         if ($recipe === null) {
-            return $this->json(
-                [
-                    "erreur" => "La recette n'existe pas",
-                    "code_error" => 404
-                ],
-                Response::HTTP_NOT_FOUND,
-            );
+
+            return $this->json404();
         }
-        return $this->json(
-            $recipe,
-            Response::HTTP_OK,
-            [],
-            [
-                "groups" =>
-                [
-                    "api_recipes_read"
-                ]
-            ]
-        );
+
+        return $this->json200($recipe, "api_recipes_read");
     }
 
     /**
@@ -74,9 +51,9 @@ class RecipeController extends AbstractController
      */
     public function searchWithCategoryId(int $category_id, Request $request)
     {
-        $search = $request->query->get('query') ?? null;
+        $search = $request->query->get('query');
 
-        if ($search) {
+        if ($search !== "") {
             $data = $this->recipeRepository->searchWithCategory($category_id, $search);
         } else {
             $data = $this->recipeRepository->findBy(
@@ -84,16 +61,6 @@ class RecipeController extends AbstractController
             );
         }
 
-        return $this->json(
-            $data,
-            Response::HTTP_OK,
-            [],
-            [
-                "groups" =>
-                [
-                    "api_recipes_browse"
-                ]
-            ]
-        );
+        return $this->json200($data, "api_recipes_browse");
     }
 }
