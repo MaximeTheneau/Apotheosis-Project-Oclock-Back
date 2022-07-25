@@ -5,43 +5,48 @@
 {% block body %}
     <h1>User index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Pseudo</th>
-                <th>Avatar</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.pseudo }}</td>
-                <td>{{ user.avatar }}</td>
-                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_back_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_back_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Password</th>
+                        <th>Pseudo</th>
+                        <th>Avatar</th>
+                        <th>CreatedAt</th>
+                        <th>UpdatedAt</th>
+                        <th>Do you want to</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.pseudo }}</td>
+                        <td>{{ user.avatar }}</td>
+                        <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a href="{{ path('app_back_user_show', {'id': user.id}) }}" class="btn btn-outline-primary text-nowrap">Show this User Profile</a>
+                            </br>
+                            <a href="{{ path('app_back_user_edit', {'id': user.id}) }}" class="btn btn-outline-warning mt-1">Edit this User Profile</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        
 
-    <a href="{{ path('app_back_user_new') }}">Create new</a>
+        <a href="{{ path('app_back_user_new') }}" class="btn btn-success">Create new</a>
+    </div>
 {% endblock %}
