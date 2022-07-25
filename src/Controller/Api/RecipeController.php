@@ -124,6 +124,17 @@ class RecipeController extends ApiController
         $newRecipe->setCreatedAt(new DateTime());
         $newRecipe->setSlug($this->slugger->slug($newRecipe->getTitle()));
 
+        // If the ingredient doesn't exist yet we need to set createdAt to add this ingredient in DataBase
+        foreach ($newRecipe->getRecipeIngredients() as $RecipeIngredient) {
+            $ingredient = $RecipeIngredient->getIngredient();
+
+            // If the ingredient's id is null this ingredient is not in the Database yet
+            // So we need to set the createdAt 
+            if (!$ingredient->getId()){
+                $ingredient->setCreatedAt(new DateTime());
+            }
+        }
+
         $errors = $this->validator->validate($newRecipe);
 
         if (count($errors) > 0) {
