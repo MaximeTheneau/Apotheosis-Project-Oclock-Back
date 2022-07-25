@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class HomeController extends ApiController
 {
 
     private RecipeRepository $recipeRepo;
@@ -49,16 +49,6 @@ class HomeController extends AbstractController
             'randomUsers'
         );
 
-        return $this->json(
-            $data,
-            Response::HTTP_OK,
-            [],
-            [
-                "groups" =>
-                [
-                    "api_recipes_browse"
-                ]
-            ]
-        );
+        return $this->json200($data, "api_recipes_browse");
     }
 }
