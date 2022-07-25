@@ -54,6 +54,8 @@ class UserService
 
             $file = $request->files->get('picture');
 
+            dd($this->kernel->getProjectDir());
+
             $file->move($this->kernel->getProjectDir().'/omiam/current/public/sources/images/user/', 'avatar_'.$user->getId().'.png');
         }
 
