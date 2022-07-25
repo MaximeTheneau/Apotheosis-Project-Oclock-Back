@@ -14,6 +14,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Category
 {
+    use MainEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

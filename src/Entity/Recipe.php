@@ -16,6 +16,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Recipe
 {
+    use MainEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

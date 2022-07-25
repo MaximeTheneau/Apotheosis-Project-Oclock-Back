@@ -3,12 +3,49 @@
 namespace App\Controller\Api;
 
 use App\Model\JsonMessage;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 class ApiController extends AbstractController
 {
+    /**
+     * Method who edits object
+     *
+     * @param object $dataToUpdate : new data to edit 
+     * @param object $objectToUpdate : object we went to update
+     */
+    public function editData(object $dataToUpdate, object $objectToUpdate, UserPasswordHasherInterface $hasher = null)
+    {
+        foreach ($dataToUpdate->getProps() as $name => $data) {
+            if ($name !== 'id') {
+                if ($data instanceof ArrayCollection) {
+                    if (!$data->isEmpty()) {
+                        $regex = "/[s]$/";
+                        foreach ($data->getValues() as $value) {
+                            $methodName = preg_replace($regex, '', $name);
+                            $methodName = 'add' . ucfirst($methodName);
+
+                            $objectToUpdate->$methodName($value);
+                        }
+                    }
+                } elseif (!($data instanceof ArrayCollection) && $data) {
+                    $methodName = 'set' . ucfirst($name);
+                    if($name === 'password'){
+                        $data = $hasher->hashPassword($objectToUpdate, $data);
+                    }
+                    $objectToUpdate->$methodName($data);
+                }
+            }
+        }
+
+        $objectToUpdate->setUpdatedAt(new DateTime());
+    }
+    
     public function json404()
     {
         $error = new JsonMessage('Elément non trouvé', 404);
