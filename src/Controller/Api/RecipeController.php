@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
+use App\Service\RecipeService;
 use DateTime;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface as StorageTokenStorageInterface;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -27,19 +27,23 @@ class RecipeController extends ApiController
     private $tokenService;
     private $validator;
     private $slugger;
+    private $recipeService;
     
     public function __construct(
         RecipeRepository $recipeRepository,
         SerializerInterface $serializer,
-        StorageTokenStorageInterface $token,
+        TokenStorageInterface $token,
         ValidatorInterface $validator,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        RecipeService $recipeService
     ) {
         $this->recipeRepository = $recipeRepository;
         $this->serializer = $serializer;
         $this->tokenService = $token;
         $this->validator = $validator;
         $this->slugger = $slugger;
+        $this->recipeService = $recipeService;
+
     }
     
     
@@ -109,7 +113,8 @@ class RecipeController extends ApiController
             return $this->json403();
         }
 
-        $jsonContent = $request->getContent();
+        // $jsonContent = $request->getContent();
+        $jsonContent = $request->request->get('json');
 
         try {
             $newRecipe = $this->serializer->deserialize($jsonContent, Recipe::class, 'json');
@@ -140,6 +145,11 @@ class RecipeController extends ApiController
         if (count($errors) > 0) {
             return $this->json422($errors, $newRecipe, "api_recipes_read");
         }
+
+        $this->recipeRepository->add($newRecipe, true);
+
+
+        $this->recipeService->setPicture($newRecipe, $request);
 
         $this->recipeRepository->add($newRecipe, true);
 
