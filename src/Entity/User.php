@@ -16,6 +16,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use MainEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

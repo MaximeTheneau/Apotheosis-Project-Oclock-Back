@@ -11,6 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Comment
 {
+    use MainEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
