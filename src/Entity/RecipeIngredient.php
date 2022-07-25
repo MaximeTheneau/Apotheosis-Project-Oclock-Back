@@ -40,7 +40,7 @@ class RecipeIngredient
     private $recipe;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ingredient::class, inversedBy="recipeIngredients")
+     * @ORM\ManyToOne(targetEntity=Ingredient::class, inversedBy="recipeIngredients", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_recipes_read")
