@@ -44,7 +44,7 @@ class RecipeService
 
             $file = $request->files->get('picture');
 
-            $file->move($this->kernel->getProjectDir().'/omiam/current/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.png');
+            $file->move('/var/www/html/omiam/current/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.png');
         }
 
         $recipe->setPicture($urlPicture);
