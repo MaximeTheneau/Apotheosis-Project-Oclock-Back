@@ -131,6 +131,13 @@ task('init:config:write:dev', function() {
     run('echo "DATABASE_URL={{env_database}}" >> {{remote_server_target_repository}}/shared/.env.local');
 });
 
+desc('création de la passPhrase de JWT token');
+task('init:jwt:passphrase', function () {
+    // comme la commande fixture nous pose la question si OUI ou NON on vide la base de données
+    // et que l'on ne peut pas intéragir, on ajoute un "yes | " pour pré-répondre à la question
+    run('{{bin/console}} lexik:jwt:generate-keypair');
+});
+
 desc('Deploy project');
 task('first_deploy', [
 
@@ -158,6 +165,8 @@ task('first_deploy', [
     // on lance les fixtures
     'init:fixtures',
 
+    'init:jwt:passphrase',
+
     // on écrit notre fichier .env.local
     // 'init:config:write:prod',
 
@@ -177,7 +186,7 @@ task('dev_update', [
     'deploy:cache:clear',
 
     // https://deployer.org/docs/7.x/recipe/symfony#databasemigrate
-    // 'database:migrate',
+    'database:migrate',
 
     'init:fixtures',
     
