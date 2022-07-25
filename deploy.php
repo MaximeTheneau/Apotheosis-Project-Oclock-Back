@@ -135,7 +135,7 @@ desc('création de la passPhrase de JWT token');
 task('init:jwt:passphrase', function () {
     // comme la commande fixture nous pose la question si OUI ou NON on vide la base de données
     // et que l'on ne peut pas intéragir, on ajoute un "yes | " pour pré-répondre à la question
-    run('{{bin/console}} lexik:jwt:generate-keypair');
+    run('{{bin/console}} lexik:jwt:generate-keypair --overwrite');
 });
 
 desc('Deploy project');
@@ -189,6 +189,8 @@ task('dev_update', [
     'database:migrate',
 
     'init:fixtures',
+
+    'init:jwt:passphrase',
     
     // https://deployer.org/docs/7.x/recipe/common#deploypublish
     'deploy:publish'

@@ -44,7 +44,7 @@ class UserService
     
     public function setPicture(User $user, Request $request){
 
-        $urlPicture = $request->getSchemeAndHttpHost().'/sources/images/user/';
+        $urlPicture = $request->getSchemeAndHttpHost().'/omiam/current/public/sources/images/user/';
 
         if(!$request->files->get('picture')){
 
@@ -54,7 +54,7 @@ class UserService
 
             $file = $request->files->get('picture');
 
-            $file->move($this->kernel->getProjectDir().'/public/sources/images/user/', 'avatar_'.$user->getId().'.png');
+            $file->move($this->kernel->getProjectDir().'/omiam/current/public/sources/images/user/', 'avatar_'.$user->getId().'.png');
         }
 
         $user->setAvatar($urlPicture);

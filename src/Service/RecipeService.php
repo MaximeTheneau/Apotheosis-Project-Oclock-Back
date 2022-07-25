@@ -17,7 +17,7 @@ class RecipeService
 
     public function setPicture(Recipe $recipe, Request $request){
 
-        $urlPicture = $request->getSchemeAndHttpHost().'/sources/images/recipe/';
+        $urlPicture = $request->getSchemeAndHttpHost().'/omiam/current/public/sources/images/recipe/';
 
         if(!$request->files->get('picture')){
 
@@ -44,7 +44,7 @@ class RecipeService
 
             $file = $request->files->get('picture');
 
-            $file->move($this->kernel->getProjectDir().'/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.png');
+            $file->move($this->kernel->getProjectDir().'/omiam/current/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.png');
         }
 
         $recipe->setPicture($urlPicture);
