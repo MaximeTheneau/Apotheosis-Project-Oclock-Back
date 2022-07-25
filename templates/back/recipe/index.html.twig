@@ -19,7 +19,7 @@
                 <th>Difficulty</th>
                 <th>CreatedAt</th>
                 <th>UpdatedAt</th>
-                <th>actions</th>
+                <th>Do you want to :</th>
             </tr>
         </thead>
         <tbody>
@@ -37,8 +37,8 @@
                 <td>{{ recipe.createdAt ? recipe.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ recipe.updatedAt ? recipe.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_back_recipe_show', {'id': recipe.id}) }}">show</a>
-                    <a href="{{ path('app_back_recipe_edit', {'id': recipe.id}) }}">edit</a>
+                    <a href="{{ path('app_back_recipe_show', {'id': recipe.id}) }}"class="btn btn-outline-primary text-nowrap mt-1">Show this Recipe</a>
+                    <a href="{{ path('app_back_recipe_edit', {'id': recipe.id}) }}"class="btn btn-outline-warning mt-1">Edit this Recipe</a>
                 </td>
             </tr>
         {% else %}
@@ -49,5 +49,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_back_recipe_new') }}">Create new</a>
+    <a href="{{ path('app_back_recipe_new') }}"class="btn btn-success mt-1">Create new</a>
 {% endblock %}
