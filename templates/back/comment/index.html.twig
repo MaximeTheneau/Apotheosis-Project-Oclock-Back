@@ -12,7 +12,7 @@
                 <th>Content</th>
                 <th>CreatedAt</th>
                 <th>UpdatedAt</th>
-                <th>actions</th>
+                <th>Do you want to</th>
             </tr>
         </thead>
         <tbody>
@@ -23,8 +23,8 @@
                 <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_back_comment_show', {'id': comment.id}) }}">show</a>
-                    <a href="{{ path('app_back_comment_edit', {'id': comment.id}) }}">edit</a>
+                    <a href="{{ path('app_back_comment_show', {'id': comment.id}) }}" class="btn btn-primary mt-1">Show this Comment</a>
+                    <a href="{{ path('app_back_comment_edit', {'id': comment.id}) }}" class="btn btn-warning mt-1">Edit this Comment</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_back_comment_new') }}">Create new</a>
+    <a href="{{ path('app_back_comment_new') }}"class="btn btn-success mt-1">Create new</a>
 {% endblock %}

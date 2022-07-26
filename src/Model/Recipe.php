@@ -9,12 +9,12 @@ class Recipe
             "title" => "Pâte à crêpes",
             "caption" => "Découvrez cette recette de crêpes très rapide à préparer. Une recette simple très classique qui, grâce à sa quantité d'oeufs, ne nécessite aucun repos de la pâte. C'est une amie bretonne qui m'a donné ses secrets. En tout cas chez moi, ces crêpes ne font jamais long feu.",
             "steps" => [
-                "etape 1" => "Mettez la farine dans un saladier avec le sel et le sucre.",
-                "etape 2" => "Faites un puits au milieu et versez-y les œufs.",
-                "etape 3" => "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit.",
-                "etape 4" => "Quand tout le lait est mélangé, la pâte doit être assez fluide. Si elle vous paraît trop épaisse, rajoutez un peu de lait. Ajoutez ensuite le beurre fondu refroidi, mélangez bien.",
-                "etape 5" => "Faites cuire les crêpes dans une poêle chaude (par précaution légèrement huilée si votre poêle à crêpes n'est pas anti-adhésive). Versez une petite louche de pâte dans la poêle, faites un mouvement de rotation pour répartir la pâte sur toute la surface. Posez sur le feu et quand le tour de la crêpe se colore en roux clair, il est temps de la retourner.",
-                "etape 6" => "Laissez cuire environ une minute de ce côté et la crêpe est prête."
+                "etape1" => "Mettez la farine dans un saladier avec le sel et le sucre.",
+                "etape2" => "Faites un puits au milieu et versez-y les œufs.",
+                "etape3" => "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit.",
+                "etape4" => "Quand tout le lait est mélangé, la pâte doit être assez fluide. Si elle vous paraît trop épaisse, rajoutez un peu de lait. Ajoutez ensuite le beurre fondu refroidi, mélangez bien.",
+                "etape5" => "Faites cuire les crêpes dans une poêle chaude (par précaution légèrement huilée si votre poêle à crêpes n'est pas anti-adhésive). Versez une petite louche de pâte dans la poêle, faites un mouvement de rotation pour répartir la pâte sur toute la surface. Posez sur le feu et quand le tour de la crêpe se colore en roux clair, il est temps de la retourner.",
+                "etape6" => "Laissez cuire environ une minute de ce côté et la crêpe est prête."
             ],
             "duration" => 25,
             "difficulty" => 1,
@@ -56,10 +56,10 @@ class Recipe
         [
             "title" => "Omelette nature",
             "steps" => [
-                "etape 1" => "Battez les oeufs à la fourchette, salez et poivrez.",
-                "etape 2" => "Faites chauffer le beurre, versez-en un peu dans les oeufs et mélangez. Versez les oeufs dans la poêle à feu vif, baissez le feu et laissez cuire doucement en ramenant les bords de l'omelette au centre au fur et à mesure qu'ils prennent.",
-                "etape 3" => "Secouez un peu la poêle pour éviter que l'omelette n'attache, vérifiez la texture baveuse ou bien prise.",
-                "etape 4" => "Pliez l'omelette en deux et servez"
+                "etape1" => "Battez les oeufs à la fourchette, salez et poivrez.",
+                "etape2" => "Faites chauffer le beurre, versez-en un peu dans les oeufs et mélangez. Versez les oeufs dans la poêle à feu vif, baissez le feu et laissez cuire doucement en ramenant les bords de l'omelette au centre au fur et à mesure qu'ils prennent.",
+                "etape3" => "Secouez un peu la poêle pour éviter que l'omelette n'attache, vérifiez la texture baveuse ou bien prise.",
+                "etape4" => "Pliez l'omelette en deux et servez"
             ],
             "duration" => 15,
             "difficulty" => 1,
@@ -92,10 +92,10 @@ class Recipe
             "title" => "Mojito",
             "caption" => "Découvrez la recette du Mojito, la star des cocktails de l'été grâce à sa menthe parfumée et son irrésistible fraîcheur.",
             "steps" => [
-                "etape 1" => "Dans un verre, écrasez les feuilles de menthe au pilon dans le rhum",
-                "etape 2" => "Ajoutez le sucre et le jus de citron et mélangez.",
-                "etape 3" => "Pilez les glaçons",
-                "etape 4" => "Terminez en rajoutant l'eau gazeuse et les glaçons pilés"
+                "etape1" => "Dans un verre, écrasez les feuilles de menthe au pilon dans le rhum",
+                "etape2" => "Ajoutez le sucre et le jus de citron et mélangez.",
+                "etape3" => "Pilez les glaçons",
+                "etape4" => "Terminez en rajoutant l'eau gazeuse et les glaçons pilés"
             ],
             "duration" => 5,
             "difficulty" => 1,
@@ -138,10 +138,10 @@ class Recipe
                 "title" => "Bamoto",
                 "caption" => "Découvrez la recette du Mojito, la star des cocktails de l'été grâce à sa menthe parfumée et son irrésistible fraîcheur.",
                 "steps" => [
-                    "etape 1" => "Dans un verre, écrasez les feuilles de menthe au pilon dans le rhum",
-                    "etape 2" => "Ajoutez le sucre et le jus de citron et mélangez.",
-                    "etape 3" => "Pilez les glaçons",
-                    "etape 4" => "Terminez en rajoutant l'eau gazeuse et les glaçons pilés"
+                    "etape1" => "Dans un verre, écrasez les feuilles de menthe au pilon dans le rhum",
+                    "etape2" => "Ajoutez le sucre et le jus de citron et mélangez.",
+                    "etape3" => "Pilez les glaçons",
+                    "etape4" => "Terminez en rajoutant l'eau gazeuse et les glaçons pilés"
                 ],
                 "duration" => 5,
                 "difficulty" => 1,
