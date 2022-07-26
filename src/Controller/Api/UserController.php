@@ -90,7 +90,7 @@ class UserController extends ApiController
 
         $this->editData($upadtedUser, $userToPatch, $this->passwordHasher);
 
-        if($request->files->get('picture')){
+        if ($request->files->get('picture')) {
             $this->userService->setPicture($userToPatch, $request);
         }
         
@@ -104,15 +104,15 @@ class UserController extends ApiController
      * @Route("/{id}", name="_delete", methods={"DELETE"})
      *
      */
-    public function delete(?User $userToDelete){
-
+    public function delete(?User $userToDelete)
+    {
         $user = $this->tokenService->getToken()->getUser();
 
         if (!$this->isGranted("ROLE_USER") || $user !== $userToDelete) {
             return $this->json403();
         }
 
-        if(!$userToDelete){
+        if (!$userToDelete) {
             return $this->json404();
         }
 

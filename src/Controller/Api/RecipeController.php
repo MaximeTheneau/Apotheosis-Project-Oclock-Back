@@ -156,7 +156,7 @@ class RecipeController extends ApiController
     }
 
     /**
-     * @Route("/{id}", name="_edit")
+     * @Route("/{id}", name="_edit", methods={"POST"})
      *
      */
     public function edit(Request $request, ?Recipe $recipeToUpdate)
@@ -189,5 +189,28 @@ class RecipeController extends ApiController
         $this->recipeRepository->add($recipeToUpdate, true);
 
         return $this->json200($recipeToUpdate, "api_recipes_read");    
+    }
+
+    /**
+     * @Route("/{id}", name="_delete", methods={"DELETE"})
+     *
+     */
+    public function delete(?Recipe $recipeToDelete){
+
+        $user = $this->tokenService->getToken()->getUser();
+
+        if (!$this->isGranted("ROLE_USER") || $user !== $recipeToDelete->getUser()) {
+            return $this->json403();
+        }
+
+        if(!$recipeToDelete){
+            return $this->json404();
+        }
+
+        $this->recipeService->deletePicture($recipeToDelete);
+
+        $this->recipeRepository->remove($recipeToDelete, true);
+
+        return $this->json204();
     }
 }
