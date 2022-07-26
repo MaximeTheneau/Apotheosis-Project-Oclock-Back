@@ -3,17 +3,23 @@
 namespace App\Service;
 
 use App\Entity\Recipe;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class RecipeService
 {
-    private $kernel;
+    private $params;
+    private $projectDir;
+    private $sourcesDir;
+    private $recipesImageDir;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(ContainerBagInterface $params)
     {
-        $this->kernel = $kernel;
+        $this->params = $params;
+        $this->projectDir = $this->params->get('app.projectDir');
+        $this->sourcesDir = $this->params->get('app.sourcesDir');
+        $this->usersImageDir = $this->params->get('app.recipesImageDir');
     }
 
     public function setPicture(Recipe $recipe, Request $request, ?File $file){
@@ -43,7 +49,7 @@ class RecipeService
         }else {
             $urlPicture .= 'recipe_'.$recipe->getId().'.png';
 
-            $file->move('/var/www/html/omiam/current/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.png');
+            $file->move($this->projectDir . $this->sourcesDir . $this->recipesImageDir,  'recipe_'.$recipe->getId().'.png');
             // $file->move('/var/www/html/projet-11-omiam-back/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.png'); //for dev in localhost
         }
 
