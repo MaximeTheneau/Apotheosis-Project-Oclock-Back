@@ -3,17 +3,25 @@
 namespace App\Service;
 
 use App\Entity\User;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class UserService
 {
 
-    private $kernel;
+    private $params;
+    private $projectDir;
+    private $sourcesDir;
+    private $usersImageDir;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(ContainerBagInterface $params)
     {
-        $this->kernel = $kernel;
+        $this->params = $params;
+        $this->projectDir = $this->params->get('app.projectDir');
+        $this->sourcesDir = $this->params->get('app.sourcesDir');
+        $this->usersImageDir = $this->params->get('app.usersImageDir');
     }
 
     /**
@@ -54,10 +62,23 @@ class UserService
 
             $file = $request->files->get('picture');
 
-            $file->move('/var/www/html/omiam/current/public/sources/images/user/', 'avatar_'.$user->getId().'.png');
+            // $file->move('/var/www/html/omiam/current/public/sources/images/user/', 'avatar_'.$user->getId().'.png');
+            $file->move($this->projectDir . $this->sourcesDir . $this->usersImageDir, 'avatar_'.$user->getId().'.png');
+            
         }
 
         $user->setAvatar($urlPicture);
+    }
+
+    public function deletePicture(User $user){
+
+        $filesystem = new Filesystem();
+
+        $pictureDir = $this->projectDir . $this->sourcesDir . $this->usersImageDir . 'avatar_'.$user->getId().'.png';
+
+        if($filesystem->exists($pictureDir)){
+            $filesystem->remove($pictureDir);
+        }
     }
     
 }

@@ -69,7 +69,7 @@ class UserController extends ApiController
     }
 
     /**
-     * @Route("/{id}", name="_edit")
+     * @Route("/{id}", name="_edit", methods={"POST"})
      *
      */
     public function edit(Request $request, ?User $userToPatch)
@@ -98,5 +98,28 @@ class UserController extends ApiController
         $this->userRepo->add($userToPatch, true);
 
         return $this->json200($userToPatch, "api_users_read");
+    }
+
+    /**
+     * @Route("/{id}", name="_delete", methods={"DELETE"})
+     *
+     */
+    public function delete(?User $userToDelete){
+
+        $user = $this->tokenService->getToken()->getUser();
+
+        if (!$this->isGranted("ROLE_USER") || $user !== $userToDelete) {
+            return $this->json403();
+        }
+
+        if(!$userToDelete){
+            return $this->json404();
+        }
+
+        $this->userService->deletePicture($userToDelete);
+
+        $this->userRepo->remove($userToDelete, true);
+
+        return $this->json204();
     }
 }
