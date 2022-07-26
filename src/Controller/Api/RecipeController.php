@@ -43,7 +43,6 @@ class RecipeController extends ApiController
         $this->validator = $validator;
         $this->slugger = $slugger;
         $this->recipeService = $recipeService;
-
     }
     
     
@@ -134,8 +133,8 @@ class RecipeController extends ApiController
             $ingredient = $RecipeIngredient->getIngredient();
 
             // If the ingredient's id is null this ingredient is not in the Database yet
-            // So we need to set the createdAt 
-            if (!$ingredient->getId()){
+            // So we need to set the createdAt
+            if (!$ingredient->getId()) {
                 $ingredient->setCreatedAt(new DateTime());
             }
         }
@@ -154,5 +153,41 @@ class RecipeController extends ApiController
         $this->recipeRepository->add($newRecipe, true);
 
         return $this->json201($newRecipe, "api_recipes_read");
+    }
+
+    /**
+     * @Route("/{id}", name="_edit")
+     *
+     */
+    public function edit(Request $request, ?Recipe $recipeToUpdate)
+    {
+        $user = $this->tokenService->getToken()->getUser();
+
+        if (!$this->isGranted('ROLE_USER') || $user !== $recipeToUpdate->getUser() ) {
+            return $this->json403();
+        }
+
+        // $jsonContent = $request->getContent();
+        $jsonContent = $request->request->get('json');
+
+        // dd($jsonContent);
+
+        try {
+            $dataToUpdate = $this->serializer->deserialize($jsonContent, Recipe::class, 'json');
+        } catch (Exception $e) {
+            return $this->json400();
+        }
+
+        $this->editData($dataToUpdate, $recipeToUpdate);
+
+        if($request->files->get('picture') || $request->request->get('deleteImage') === 'true'){
+            $this->recipeService->setPicture($recipeToUpdate, $request, $request->files->get('picture'));
+        }
+
+        $recipeToUpdate->setSlug($this->slugger->slug($recipeToUpdate->getTitle()));
+
+        $this->recipeRepository->add($recipeToUpdate, true);
+
+        return $this->json200($recipeToUpdate, "api_recipes_read");    
     }
 }
