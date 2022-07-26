@@ -10,7 +10,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class UserService
 {
-
     private $params;
     private $projectDir;
     private $sourcesDir;
@@ -44,41 +43,37 @@ class UserService
             }
 
             $users[$index]["nbMiamsUser"] = $nbMiamsUser;
-            
         }
         return $users;
     }
 
     
-    public function setPicture(User $user, Request $request){
-
+    public function setPicture(User $user, Request $request)
+    {
         $urlPicture = $request->getSchemeAndHttpHost().'/omiam/current/public/sources/images/user/';
 
-        if(!$request->files->get('picture')){
-
+        if (!$request->files->get('picture')) {
             $urlPicture .= 'default/user.png';
-        }else {
+        } else {
             $urlPicture .= 'avatar_'.$user->getId().'.png';
 
             $file = $request->files->get('picture');
 
             // $file->move('/var/www/html/omiam/current/public/sources/images/user/', 'avatar_'.$user->getId().'.png');
             $file->move($this->projectDir . $this->sourcesDir . $this->usersImageDir, 'avatar_'.$user->getId().'.png');
-            
         }
 
         $user->setAvatar($urlPicture);
     }
 
-    public function deletePicture(User $user){
-
+    public function deletePicture(User $user)
+    {
         $filesystem = new Filesystem();
 
         $pictureDir = $this->projectDir . $this->sourcesDir . $this->usersImageDir . 'avatar_'.$user->getId().'.png';
 
-        if($filesystem->exists($pictureDir)){
+        if ($filesystem->exists($pictureDir)) {
             $filesystem->remove($pictureDir);
         }
     }
-    
 }
