@@ -88,8 +88,6 @@ class UserController extends ApiController
             return $this->json400();
         }
 
-        dump($userToPatch);
-
         $this->editData($upadtedUser, $userToPatch, $this->passwordHasher);
 
         if($request->files->get('picture')){

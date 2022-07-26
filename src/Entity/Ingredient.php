@@ -22,6 +22,7 @@ class Ingredient
      * @ORM\Column(type="integer")
      * 
      * @Groups("api_recipes_read")
+     * @Groups("api_ingredients_browse")
      */
     private $id;
 
@@ -29,6 +30,7 @@ class Ingredient
      * @ORM\Column(type="string", length=64)
      * 
      * @Groups("api_recipes_read")
+     * @Groups("api_ingredients_browse")
      */
     private $name;
 
