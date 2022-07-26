@@ -33,9 +33,9 @@
                         <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>
-                            <a href="{{ path('app_back_user_show', {'id': user.id}) }}" class="btn btn-outline-primary text-nowrap">Show this User Profile</a>
+                            <a href="{{ path('app_back_user_show', {'id': user.id}) }}" class="btn btn-primary text-nowrap">Show this User Profile</a>
                             </br>
-                            <a href="{{ path('app_back_user_edit', {'id': user.id}) }}" class="btn btn-outline-warning mt-1">Edit this User Profile</a>
+                            <a href="{{ path('app_back_user_edit', {'id': user.id}) }}" class="btn btn-warning mt-1">Edit this User Profile</a>
                         </td>
                     </tr>
                 {% else %}
