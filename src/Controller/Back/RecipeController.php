@@ -5,6 +5,8 @@ namespace App\Controller\Back;
 use App\Entity\Recipe;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
+use App\Service\RecipeService;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RecipeController extends AbstractController
 {
+    private $recipeService;
+
+    public function __construct(RecipeService $recipeService)
+    {
+        $this->recipeService = $recipeService;
+    }
+
     /**
      * @Route("/", name="app_back_recipe_index", methods={"GET"})
      */
@@ -35,6 +44,12 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $recipe->setCreatedAt(new DateTime());
+
+            $recipeRepository->add($recipe, true);
+
+            $this->recipeService->setPicture($recipe, $request, $request->files->get('recipe')['image']);
             $recipeRepository->add($recipe, true);
 
             return $this->redirectToRoute('app_back_recipe_index', [], Response::HTTP_SEE_OTHER);
@@ -65,6 +80,11 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->recipeService->setPicture($recipe, $request, $request->files->get('recipe')['image']);
+
+            $recipe->setUpdatedAt(new DateTime());
+
             $recipeRepository->add($recipe, true);
 
             return $this->redirectToRoute('app_back_recipe_index', [], Response::HTTP_SEE_OTHER);

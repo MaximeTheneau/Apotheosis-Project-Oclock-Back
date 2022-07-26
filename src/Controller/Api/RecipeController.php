@@ -149,7 +149,7 @@ class RecipeController extends ApiController
         $this->recipeRepository->add($newRecipe, true);
 
 
-        $this->recipeService->setPicture($newRecipe, $request);
+        $this->recipeService->setPicture($newRecipe, $request, $request->files->get('picture'));
 
         $this->recipeRepository->add($newRecipe, true);
 

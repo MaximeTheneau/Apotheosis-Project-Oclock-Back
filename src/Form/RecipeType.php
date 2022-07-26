@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class RecipeType extends AbstractType
@@ -43,7 +44,8 @@ class RecipeType extends AbstractType
                     ->add('etape8', TextareaType::class)
                     ->add('etape9', TextAreaType::class)
             )
-            ->add('picture')
+            // ->add('picture')
+            ->add('image', FileType::class ,['mapped' => false])
             ->add('nbMiams')
             ->add('duration')
             ->add('difficulty')
