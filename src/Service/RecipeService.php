@@ -16,7 +16,7 @@ class RecipeService
         $this->kernel = $kernel;
     }
 
-    public function setPicture(Recipe $recipe, Request $request, File $file){
+    public function setPicture(Recipe $recipe, Request $request, ?File $file){
 
         $urlPicture = $request->getSchemeAndHttpHost().'/omiam/current/public/sources/images/recipe/';
 

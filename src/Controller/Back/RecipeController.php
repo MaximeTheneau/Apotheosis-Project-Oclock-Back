@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/back/recipe")
@@ -18,10 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class RecipeController extends AbstractController
 {
     private $recipeService;
+    private $slugger;
 
-    public function __construct(RecipeService $recipeService)
+    public function __construct(RecipeService $recipeService, SluggerInterface $slugger)
     {
         $this->recipeService = $recipeService;
+        $this->slugger = $slugger;
     }
 
     /**
@@ -46,6 +49,7 @@ class RecipeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $recipe->setCreatedAt(new DateTime());
+            $recipe->setSlug($this->slugger->slug($recipe->getTitle()));
 
             $recipeRepository->add($recipe, true);
 
@@ -81,9 +85,13 @@ class RecipeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->recipeService->setPicture($recipe, $request, $request->files->get('recipe')['image']);
+            if ($request->files->get('recipe')['image'] || $request->get('recipe')){
+                $this->recipeService->setPicture($recipe, $request, $request->files->get('recipe')['image']);
+            }
+            
 
             $recipe->setUpdatedAt(new DateTime());
+            $recipe->setSlug($this->slugger->slug($recipe->getTitle()));
 
             $recipeRepository->add($recipe, true);
 
