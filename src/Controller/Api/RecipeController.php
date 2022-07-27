@@ -298,15 +298,15 @@ class RecipeController extends ApiController
      * @Route("/{id}/miams", name="_miams", methods={"GET"})
      *
      */
-    public function miams(?Recipe $recipe){
-
+    public function miams(?Recipe $recipe)
+    {
         $user = $this->tokenService->getToken()->getUser();
 
-        if(!$this->isGranted('ROLE_USER')){
+        if (!$this->isGranted('ROLE_USER')) {
             return $this->json403();
         }
 
-        if(!$recipe){
+        if (!$recipe) {
             return $this->json404();
         }
 
@@ -316,6 +316,5 @@ class RecipeController extends ApiController
         $this->recipeRepository->add($recipe, true);
 
         return $this->json200($recipe, "api_recipes_read");
-
     }
 }
