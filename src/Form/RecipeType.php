@@ -27,7 +27,7 @@ class RecipeType extends AbstractType
             ->add('caption', TextType::class, [
                 'label' => 'Brève histoire de votre Recette'
                 ])
-            ->add('slug')
+            // ->add('slug')
             ->add(
                 $builder->create('steps', FormType::class, 
                 [
@@ -44,7 +44,7 @@ class RecipeType extends AbstractType
                     ->add('etape9', TextAreaType::class)
             )
             ->add('picture')
-            ->add('nbMiams')
+            //->add('nbMiams')
             ->add('duration')
             ->add('difficulty')
             //->add('createdAt')
@@ -57,7 +57,7 @@ class RecipeType extends AbstractType
                 'class' => User::class,
                 //'choice_label' => 'UserIdentifier'
             ])
-            ->add('usersWhoFavorized')
+            //->add('usersWhoFavorized')
         ;
     }
 

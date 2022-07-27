@@ -10,13 +10,13 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>Caption</th>
-                <th>Slug</th>
-                <th>Steps</th>
-                <th>Picture</th>
-                <th>NbMiams</th>
-                <th>Duration</th>
-                <th>Difficulty</th>
+                {# <th>Caption</th> #}
+                {# <th>Slug</th> #}
+                {# <th>Steps</th> #}
+                {# <th>Picture</th> #}
+                {# <th>NbMiams</th> #}
+                {# <th>Duration</th> #}
+                {# <th>Difficulty</th> #}
                 <th>CreatedAt</th>
                 <th>UpdatedAt</th>
                 <th>Do you want to :</th>
@@ -27,13 +27,13 @@
             <tr>
                 <td>{{ recipe.id }}</td>
                 <td>{{ recipe.title }}</td>
-                <td>{{ recipe.caption }}</td>
-                <td>{{ recipe.slug }}</td>
-                <td>{{ recipe.steps ? recipe.steps|json_encode : '' }}</td>
-                <td>{{ recipe.picture }}</td>
-                <td>{{ recipe.nbMiams }}</td>
-                <td>{{ recipe.duration }}</td>
-                <td>{{ recipe.difficulty }}</td>
+                {# <td>{{ recipe.caption }}</td> #}
+                {# <td>{{ recipe.slug }}</td> #}
+                {# <td>{{ recipe.steps ? recipe.steps|json_encode : '' }}</td> #}
+                {# <td>{{ recipe.picture }}</td> #}
+                {# <td>{{ recipe.nbMiams }}</td> #}
+                {# <td>{{ recipe.duration }}</td> #}
+                {# <td>{{ recipe.difficulty }}</td> #}
                 <td>{{ recipe.createdAt ? recipe.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ recipe.updatedAt ? recipe.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
