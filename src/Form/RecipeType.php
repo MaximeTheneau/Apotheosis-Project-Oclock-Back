@@ -30,6 +30,7 @@ class RecipeType extends AbstractType
             ->add('caption', TextType::class, [
                 'label' => 'Brève histoire de votre Recette'
                 ])
+
             ->add(
                 $builder->create('steps', FormType::class, 
                 [
@@ -45,7 +46,8 @@ class RecipeType extends AbstractType
                     ->add('etape8', TextareaType::class)
                     ->add('etape9', TextAreaType::class)
             )
-            // ->add('picture')
+
+          
             ->add('image', FileType::class ,[
                 'mapped' => false,
                 'required' => false
@@ -68,7 +70,8 @@ class RecipeType extends AbstractType
                     ]);
                 }
             })
-            // ->add('nbMiams')
+            
+
             ->add('duration')
             ->add('difficulty')
             //->add('createdAt')
@@ -80,7 +83,7 @@ class RecipeType extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class
             ])
-            // ->add('usersWhoFavorized')
+
         ;
     }
 
