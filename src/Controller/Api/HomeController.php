@@ -7,29 +7,35 @@ use App\Repository\UserRepository;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends ApiController
 {
 
-    private RecipeRepository $recipeRepo;
-    private UserRepository $userRepo;
-    private UserService $userService;
+    private $recipeRepo;
+    private $userRepo;
+    private $userService;
+    private $mailer;
 
     public function __construct(
         RecipeRepository $recipeRepository,
         UserRepository $userRepository,
-        UserService $userService
+        UserService $userService,
+        MailerInterface $mailer
         )
     {
         $this->recipeRepo = $recipeRepository;
         $this->userRepo = $userRepository;
         $this->userService = $userService;
+        $this->mailer = $mailer;
     }
 
     /**
-     * @Route("/api/home", name="app_api_home")
+     * @Route("/api/home", name="app_api_home", methods={"GET"})
      */
     public function index(): JsonResponse
     {
@@ -50,5 +56,28 @@ class HomeController extends ApiController
         );
 
         return $this->json200($data, "api_recipes_browse");
+    }
+
+    /**
+     * @Route("/api/contact", name="app_api_contact", methods={"POST"})
+     *
+     */
+    public function contact(Request $request): JsonResponse{
+
+        $info = json_decode($request->getContent());
+
+        // dd($info->content);
+
+        $email = (new Email())
+            ->from($info->email)
+            ->to('contact@omiam.com')
+            ->subject($info->subject)
+            ->text($info->content);
+
+        $this->mailer->send($email);
+
+        return $this->json([
+            'message' => 'Votre mail a bien été envoyé'
+        ],200);
     }
 }
