@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Comment;
 use App\Entity\Recipe;
 use App\Entity\User;
 use App\Repository\RecipeRepository;
@@ -228,5 +229,36 @@ class RecipeController extends ApiController
         $recipesUser = $user->getRecipes();
 
         return $this->json200($recipesUser, "api_recipes_browse");
+    }
+
+    /**
+     * @Route("/{id}/comments", name="_add_comment", methods={"POST"})
+     *
+     */
+    public function addComment(Request $request, ?Recipe $recipe){
+
+        if(!$this->isGranted('ROLE_USER')){
+
+            return $this->json403();
+        }
+
+        $user = $this->tokenService->getToken()->getUser();
+
+        $jsonContent = $request->getContent();
+
+        try {
+            $comment = $this->serializer->deserialize($jsonContent, Comment::class, 'json');
+        } catch (Exception $e) {
+            return $this->json400();
+        }
+
+        $comment->setUser($user);
+        $comment->setCreatedAt(new DateTime());
+
+        $recipe->addComment($comment);
+
+        $this->recipeRepository->add($recipe, true);
+
+        return $this->json201($recipe, "api_recipes_read");
     }
 }

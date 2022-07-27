@@ -136,7 +136,7 @@ class Recipe
     private $recipeIngredients;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="recipe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="recipe", orphanRemoval=true, cascade={"persist"})
      * 
      * @Groups("api_recipes_read")
      */
