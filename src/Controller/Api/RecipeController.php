@@ -245,7 +245,7 @@ class RecipeController extends ApiController
             return $this->json403();
         }
 
-        if(!$recipe){
+        if (!$recipe) {
             return $this->json404();
         }
 
@@ -273,13 +273,13 @@ class RecipeController extends ApiController
      * @Route("/{id}/comments/{idComment}", name="_delete_comment", methods={"DELETE"})
      *
      */
-    public function deleteComment(Request $request, ?Recipe $recipe, int $idComment){
-
+    public function deleteComment(Request $request, ?Recipe $recipe, int $idComment)
+    {
         $user = $this->tokenService->getToken()->getUser();
 
         $comment = $this->commentRepository->find($idComment);
 
-        if(!$recipe || !$comment){
+        if (!$recipe || !$comment) {
             return $this->json404();
         }
 
@@ -292,5 +292,30 @@ class RecipeController extends ApiController
         $this->recipeRepository->add($recipe, true);
 
         return $this->json204();
+    }
+
+    /**
+     * @Route("/{id}/miams", name="_miams", methods={"GET"})
+     *
+     */
+    public function miams(?Recipe $recipe){
+
+        $user = $this->tokenService->getToken()->getUser();
+
+        if(!$this->isGranted('ROLE_USER')){
+            return $this->json403();
+        }
+
+        if(!$recipe){
+            return $this->json404();
+        }
+
+        $recipe->setNbMiams($recipe->getNbMiams()+1);
+        $recipe->addUsersWhoFavorized($user);
+
+        $this->recipeRepository->add($recipe, true);
+
+        return $this->json200($recipe, "api_recipes_read");
+
     }
 }
