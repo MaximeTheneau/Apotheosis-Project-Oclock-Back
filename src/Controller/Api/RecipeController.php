@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Recipe;
+use App\Entity\User;
 use App\Repository\RecipeRepository;
 use App\Service\RecipeService;
 use DateTime;
@@ -212,5 +213,20 @@ class RecipeController extends ApiController
         $this->recipeRepository->remove($recipeToDelete, true);
 
         return $this->json204();
+    }
+
+    /**
+     * @Route("/user/{id}", name="_user", methods={"GET"})
+     *
+     */
+    public function recipesByUser(?User $user){
+
+        if(!$user){
+            return $this->json404();
+        }
+
+        $recipesUser = $user->getRecipes();
+
+        return $this->json200($recipesUser, "api_recipes_browse");
     }
 }

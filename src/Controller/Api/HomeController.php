@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends ApiController
 {
-
     private $recipeRepo;
     private $userRepo;
     private $userService;
@@ -26,8 +25,7 @@ class HomeController extends ApiController
         UserRepository $userRepository,
         UserService $userService,
         MailerInterface $mailer
-        )
-    {
+    ) {
         $this->recipeRepo = $recipeRepository;
         $this->userRepo = $userRepository;
         $this->userService = $userService;
@@ -45,12 +43,12 @@ class HomeController extends ApiController
 
         $randomRecipes = $this->recipeRepo->findRandomRecipes();
 
-        // we call miamsCalcul in UserService and send an array of User Object 
+        // we call miamsCalcul in UserService and send an array of User Object
         $randomUsers = $this->userService->miamsCalcul($this->userRepo->findRandomUsers());
 
         $data = compact(
-            'miamsRecipes', 
-            'lastRecipes', 
+            'miamsRecipes',
+            'lastRecipes',
             'randomRecipes',
             'randomUsers'
         );
@@ -62,8 +60,8 @@ class HomeController extends ApiController
      * @Route("/api/contact", name="app_api_contact", methods={"POST"})
      *
      */
-    public function contact(Request $request): JsonResponse{
-
+    public function contact(Request $request): JsonResponse
+    {
         $info = json_decode($request->getContent());
 
         // dd($info->content);
@@ -78,6 +76,6 @@ class HomeController extends ApiController
 
         return $this->json([
             'message' => 'Votre mail a bien été envoyé'
-        ],200);
+        ], 200);
     }
 }
