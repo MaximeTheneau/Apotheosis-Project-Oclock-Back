@@ -138,6 +138,11 @@ task('init:jwt:passphrase', function () {
     run('{{bin/console}} lexik:jwt:generate-keypair --overwrite');
 });
 
+desc('ecrit le cors allow');
+task('init:write:cors', function() {
+    run('echo "CORS_ALLOW_ORIGIN=\'*\'" >> {{remote_server_target_repository}}/shared/.env.local');
+});
+
 desc('Deploy project');
 task('first_deploy', [
 
@@ -189,6 +194,8 @@ task('dev_update', [
     'database:migrate',
 
     'init:fixtures',
+
+    'init:write:cors',
 
     'init:jwt:passphrase',
     
