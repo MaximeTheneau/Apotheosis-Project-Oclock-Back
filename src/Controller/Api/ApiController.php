@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 class ApiController extends AbstractController
 {
@@ -64,7 +65,9 @@ class ApiController extends AbstractController
                 "groups"=>
                 [
                     $group
-                ]
+                ],
+                'circular_reference_limit' => 2,
+                AbstractObjectNormalizer::ENABLE_MAX_DEPTH => true,
             ]
         );
     }

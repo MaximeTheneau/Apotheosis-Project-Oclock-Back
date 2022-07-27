@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -25,6 +27,8 @@ class Recipe
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $id;
 
@@ -44,6 +48,8 @@ class Recipe
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $title;
 
@@ -70,6 +76,8 @@ class Recipe
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $picture;
 
@@ -78,6 +86,8 @@ class Recipe
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $nbMiams;
 
@@ -111,6 +121,8 @@ class Recipe
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $category;
 
@@ -118,8 +130,12 @@ class Recipe
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes,")
      * @ORM\JoinColumn(nullable=false)
      * 
+     * @MaxDepth(1)
+     * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $user;
 

@@ -65,7 +65,7 @@ class UserController extends ApiController
 
         $this->userRepo->add($newUser, true);
 
-        return $this->json201($newUser, "api_users_read");
+        return $this->json201($newUser, "api_users_add_edit");
     }
 
     /**
@@ -97,7 +97,7 @@ class UserController extends ApiController
 
         $this->userRepo->add($userToPatch, true);
 
-        return $this->json200($userToPatch, "api_users_read");
+        return $this->json200($userToPatch, "api_users_add_edit");
     }
 
     /**
@@ -121,5 +121,30 @@ class UserController extends ApiController
         $this->userRepo->remove($userToDelete, true);
 
         return $this->json204();
+    }
+
+
+    /**
+     * @Route("/{id}", name="_read", methods={"GET"})
+     *
+     */
+    public function read(?User $userToRead){
+
+        $user = null;
+        if($this->tokenService->getToken()){
+           $user = $this->tokenService->getToken()->getUser(); 
+        }
+        
+
+        if(!$userToRead){
+            return $this->json404();
+        }
+
+        if($user !== $userToRead || !$user){
+            return $this->json200($userToRead, "api_users_read");
+        }elseif($user === $userToRead){
+            return $this->json200($userToRead, "api_users_read_self");
+        }
+        
     }
 }
