@@ -14,12 +14,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Ingredient
 {
+    use MainEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
      * @Groups("api_recipes_read")
+     * @Groups("api_ingredients_browse")
      */
     private $id;
 
@@ -27,6 +30,7 @@ class Ingredient
      * @ORM\Column(type="string", length=64)
      * 
      * @Groups("api_recipes_read")
+     * @Groups("api_ingredients_browse")
      */
     private $name;
 

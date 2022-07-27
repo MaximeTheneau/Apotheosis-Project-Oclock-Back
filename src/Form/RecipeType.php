@@ -15,7 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class RecipeType extends AbstractType
 {
@@ -27,7 +30,7 @@ class RecipeType extends AbstractType
             ->add('caption', TextType::class, [
                 'label' => 'Brève histoire de votre Recette'
                 ])
-            // ->add('slug')
+
             ->add(
                 $builder->create('steps', FormType::class, 
                 [
@@ -43,8 +46,32 @@ class RecipeType extends AbstractType
                     ->add('etape8', TextareaType::class)
                     ->add('etape9', TextAreaType::class)
             )
-            ->add('picture')
-            //->add('nbMiams')
+
+          
+            ->add('image', FileType::class ,[
+                'mapped' => false,
+                'required' => false
+                ])
+            // We need the option if we want to delet or no the picture
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $e){
+                $form = $e->getForm();
+                $recipe = $e->getData();
+
+                if($recipe->getId()){
+                    $form->add('deleteImage', ChoiceType::class, [
+                        'mapped' => false,
+                        'label' => "Suppression de l'image de la recette (sera remplacer par l'image par défaut)",
+                        'choices' => [
+                            "oui" => true,
+                            "non" => false
+                        ],
+                        'expanded' => true,
+                        'data' => false
+                    ]);
+                }
+            })
+            
+
             ->add('duration')
             ->add('difficulty')
             //->add('createdAt')
@@ -54,10 +81,9 @@ class RecipeType extends AbstractType
                 'choice_label' => 'name',
                 'class' => Category::class,])
             ->add('user', EntityType::class, [
-                'class' => User::class,
-                //'choice_label' => 'UserIdentifier'
+                'class' => User::class
             ])
-            //->add('usersWhoFavorized')
+
         ;
     }
 

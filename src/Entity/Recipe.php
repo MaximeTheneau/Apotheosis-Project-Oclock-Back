@@ -16,6 +16,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Recipe
 {
+    use MainEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -113,7 +115,7 @@ class Recipe
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes,")
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_recipes_browse")

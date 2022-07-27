@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
+use App\Service\RecipeService;
 use DateTime;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface as StorageTokenStorageInterface;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -27,19 +27,22 @@ class RecipeController extends ApiController
     private $tokenService;
     private $validator;
     private $slugger;
+    private $recipeService;
     
     public function __construct(
         RecipeRepository $recipeRepository,
         SerializerInterface $serializer,
-        StorageTokenStorageInterface $token,
+        TokenStorageInterface $token,
         ValidatorInterface $validator,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        RecipeService $recipeService
     ) {
         $this->recipeRepository = $recipeRepository;
         $this->serializer = $serializer;
         $this->tokenService = $token;
         $this->validator = $validator;
         $this->slugger = $slugger;
+        $this->recipeService = $recipeService;
     }
     
     
@@ -109,7 +112,8 @@ class RecipeController extends ApiController
             return $this->json403();
         }
 
-        $jsonContent = $request->getContent();
+        // $jsonContent = $request->getContent();
+        $jsonContent = $request->request->get('json');
 
         try {
             $newRecipe = $this->serializer->deserialize($jsonContent, Recipe::class, 'json');
@@ -129,8 +133,8 @@ class RecipeController extends ApiController
             $ingredient = $RecipeIngredient->getIngredient();
 
             // If the ingredient's id is null this ingredient is not in the Database yet
-            // So we need to set the createdAt 
-            if (!$ingredient->getId()){
+            // So we need to set the createdAt
+            if (!$ingredient->getId()) {
                 $ingredient->setCreatedAt(new DateTime());
             }
         }
@@ -143,6 +147,70 @@ class RecipeController extends ApiController
 
         $this->recipeRepository->add($newRecipe, true);
 
+
+        $this->recipeService->setPicture($newRecipe, $request, $request->files->get('picture'));
+
+        $this->recipeRepository->add($newRecipe, true);
+
         return $this->json201($newRecipe, "api_recipes_read");
+    }
+
+    /**
+     * @Route("/{id}", name="_edit", methods={"POST"})
+     *
+     */
+    public function edit(Request $request, ?Recipe $recipeToUpdate)
+    {
+        $user = $this->tokenService->getToken()->getUser();
+
+        if (!$this->isGranted('ROLE_USER') || $user !== $recipeToUpdate->getUser() ) {
+            return $this->json403();
+        }
+
+        // $jsonContent = $request->getContent();
+        $jsonContent = $request->request->get('json');
+
+        // dd($jsonContent);
+
+        try {
+            $dataToUpdate = $this->serializer->deserialize($jsonContent, Recipe::class, 'json');
+        } catch (Exception $e) {
+            return $this->json400();
+        }
+
+        $this->editData($dataToUpdate, $recipeToUpdate);
+
+        if($request->files->get('picture') || $request->request->get('deleteImage') === 'true'){
+            $this->recipeService->setPicture($recipeToUpdate, $request, $request->files->get('picture'));
+        }
+
+        $recipeToUpdate->setSlug($this->slugger->slug($recipeToUpdate->getTitle()));
+
+        $this->recipeRepository->add($recipeToUpdate, true);
+
+        return $this->json200($recipeToUpdate, "api_recipes_read");    
+    }
+
+    /**
+     * @Route("/{id}", name="_delete", methods={"DELETE"})
+     *
+     */
+    public function delete(?Recipe $recipeToDelete){
+
+        $user = $this->tokenService->getToken()->getUser();
+
+        if (!$this->isGranted("ROLE_USER") || $user !== $recipeToDelete->getUser()) {
+            return $this->json403();
+        }
+
+        if(!$recipeToDelete){
+            return $this->json404();
+        }
+
+        $this->recipeService->deletePicture($recipeToDelete);
+
+        $this->recipeRepository->remove($recipeToDelete, true);
+
+        return $this->json204();
     }
 }

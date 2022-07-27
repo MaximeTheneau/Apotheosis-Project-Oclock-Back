@@ -16,6 +16,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use MainEntity;
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -28,6 +30,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * 
+     * @Groups("api_users_read")
      */
     private $email;
 
@@ -47,11 +51,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * 
+     * @Groups("api_users_read")
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups("api_users_read")
      */
     private $avatar;
 
@@ -66,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="user", orphanRemoval=true)
      */
     private $recipes;
 

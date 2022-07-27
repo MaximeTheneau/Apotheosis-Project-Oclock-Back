@@ -5,16 +5,28 @@ namespace App\Controller\Back;
 use App\Entity\Recipe;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
+use App\Service\RecipeService;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/back/recipe")
  */
 class RecipeController extends AbstractController
 {
+    private $recipeService;
+    private $slugger;
+
+    public function __construct(RecipeService $recipeService, SluggerInterface $slugger)
+    {
+        $this->recipeService = $recipeService;
+        $this->slugger = $slugger;
+    }
+
     /**
      * @Route("/", name="app_back_recipe_index", methods={"GET"})
      */
@@ -35,6 +47,13 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $recipe->setCreatedAt(new DateTime());
+            $recipe->setSlug($this->slugger->slug($recipe->getTitle()));
+
+            $recipeRepository->add($recipe, true);
+
+            $this->recipeService->setPicture($recipe, $request, $request->files->get('recipe')['image']);
             $recipeRepository->add($recipe, true);
 
             return $this->redirectToRoute('app_back_recipe_index', [], Response::HTTP_SEE_OTHER);
@@ -65,6 +84,15 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->files->get('recipe')['image'] || $request->get('recipe')){
+                $this->recipeService->setPicture($recipe, $request, $request->files->get('recipe')['image']);
+            }
+            
+
+            $recipe->setUpdatedAt(new DateTime());
+            $recipe->setSlug($this->slugger->slug($recipe->getTitle()));
+
             $recipeRepository->add($recipe, true);
 
             return $this->redirectToRoute('app_back_recipe_index', [], Response::HTTP_SEE_OTHER);
