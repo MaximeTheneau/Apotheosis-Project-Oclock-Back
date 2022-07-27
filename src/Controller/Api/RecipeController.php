@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Comment;
 use App\Entity\Recipe;
 use App\Entity\User;
+use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
 use App\Service\RecipeService;
 use DateTime;
@@ -30,6 +31,7 @@ class RecipeController extends ApiController
     private $validator;
     private $slugger;
     private $recipeService;
+    private $commentRepository;
     
     public function __construct(
         RecipeRepository $recipeRepository,
@@ -37,7 +39,8 @@ class RecipeController extends ApiController
         TokenStorageInterface $token,
         ValidatorInterface $validator,
         SluggerInterface $slugger,
-        RecipeService $recipeService
+        RecipeService $recipeService,
+        CommentRepository $commentRepository
     ) {
         $this->recipeRepository = $recipeRepository;
         $this->serializer = $serializer;
@@ -45,6 +48,7 @@ class RecipeController extends ApiController
         $this->validator = $validator;
         $this->slugger = $slugger;
         $this->recipeService = $recipeService;
+        $this->commentRepository = $commentRepository;
     }
     
     
@@ -165,7 +169,7 @@ class RecipeController extends ApiController
     {
         $user = $this->tokenService->getToken()->getUser();
 
-        if (!$this->isGranted('ROLE_USER') || $user !== $recipeToUpdate->getUser() ) {
+        if (!$this->isGranted('ROLE_USER') || $user !== $recipeToUpdate->getUser()) {
             return $this->json403();
         }
 
@@ -182,7 +186,7 @@ class RecipeController extends ApiController
 
         $this->editData($dataToUpdate, $recipeToUpdate);
 
-        if($request->files->get('picture') || $request->request->get('deleteImage') === 'true'){
+        if ($request->files->get('picture') || $request->request->get('deleteImage') === 'true') {
             $this->recipeService->setPicture($recipeToUpdate, $request, $request->files->get('picture'));
         }
 
@@ -190,22 +194,22 @@ class RecipeController extends ApiController
 
         $this->recipeRepository->add($recipeToUpdate, true);
 
-        return $this->json200($recipeToUpdate, "api_recipes_read");    
+        return $this->json200($recipeToUpdate, "api_recipes_read");
     }
 
     /**
      * @Route("/{id}", name="_delete", methods={"DELETE"})
      *
      */
-    public function delete(?Recipe $recipeToDelete){
-
+    public function delete(?Recipe $recipeToDelete)
+    {
         $user = $this->tokenService->getToken()->getUser();
 
         if (!$this->isGranted("ROLE_USER") || $user !== $recipeToDelete->getUser()) {
             return $this->json403();
         }
 
-        if(!$recipeToDelete){
+        if (!$recipeToDelete) {
             return $this->json404();
         }
 
@@ -220,9 +224,9 @@ class RecipeController extends ApiController
      * @Route("/user/{id}", name="_user", methods={"GET"})
      *
      */
-    public function recipesByUser(?User $user){
-
-        if(!$user){
+    public function recipesByUser(?User $user)
+    {
+        if (!$user) {
             return $this->json404();
         }
 
@@ -235,11 +239,14 @@ class RecipeController extends ApiController
      * @Route("/{id}/comments", name="_add_comment", methods={"POST"})
      *
      */
-    public function addComment(Request $request, ?Recipe $recipe){
-
-        if(!$this->isGranted('ROLE_USER')){
-
+    public function addComment(Request $request, ?Recipe $recipe)
+    {
+        if (!$this->isGranted('ROLE_USER')) {
             return $this->json403();
+        }
+
+        if(!$recipe){
+            return $this->json404();
         }
 
         $user = $this->tokenService->getToken()->getUser();
@@ -260,5 +267,30 @@ class RecipeController extends ApiController
         $this->recipeRepository->add($recipe, true);
 
         return $this->json201($recipe, "api_recipes_read");
+    }
+
+    /**
+     * @Route("/{id}/comments/{idComment}", name="_delete_comment", methods={"DELETE"})
+     *
+     */
+    public function deleteComment(Request $request, ?Recipe $recipe, int $idComment){
+
+        $user = $this->tokenService->getToken()->getUser();
+
+        $comment = $this->commentRepository->find($idComment);
+
+        if(!$recipe || !$comment){
+            return $this->json404();
+        }
+
+        if (!$this->isGranted("ROLE_USER") || $user !== $comment->getUser()) {
+            return $this->json403();
+        }
+
+        $recipe->removeComment($comment);
+
+        $this->recipeRepository->add($recipe, true);
+
+        return $this->json204();
     }
 }
