@@ -129,6 +129,7 @@ desc('écraser le .env.local PUIS écrire les paramètres de DEV');
 task('init:config:write:dev', function() {
     run('echo "APP_ENV=dev" > {{remote_server_target_repository}}/shared/.env.local');
     run('echo "DATABASE_URL={{env_database}}" >> {{remote_server_target_repository}}/shared/.env.local');
+    run('echo "CORS_ALLOW_ORIGIN=\'*\'" >> {{remote_server_target_repository}}/shared/.env.local');
 });
 
 desc('création de la passPhrase de JWT token');
@@ -138,10 +139,10 @@ task('init:jwt:passphrase', function () {
     run('{{bin/console}} lexik:jwt:generate-keypair --overwrite');
 });
 
-desc('ecrit le cors allow');
-task('init:write:cors', function() {
-    run('echo "CORS_ALLOW_ORIGIN=\'*\'" >> {{remote_server_target_repository}}/shared/.env.local');
-});
+// desc('ecrit le cors allow');
+// task('init:write:cors', function() {
+//     run('echo "CORS_ALLOW_ORIGIN=\'*\'" >> {{remote_server_target_repository}}/shared/.env.local');
+// });
 
 desc('Deploy project');
 task('first_deploy', [
@@ -195,7 +196,7 @@ task('dev_update', [
 
     'init:fixtures',
 
-    'init:write:cors',
+    // 'init:write:cors',
 
     'init:jwt:passphrase',
     
