@@ -55,6 +55,7 @@ class Recipe
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
      * @Groups("api_users_read")
      * @Groups("api_users_read_self")
@@ -63,6 +64,7 @@ class Recipe
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
      */
     private $slug;
@@ -106,6 +108,7 @@ class Recipe
      * @Groups("api_recipes_read")
      * @Groups("api_users_read")
      * @Groups("api_users_read_self")
+     * @Groups("api_recipes_browse")
      */
     private $difficulty;
 
@@ -127,6 +130,7 @@ class Recipe
      * @Groups("api_recipes_read")
      * @Groups("api_users_read")
      * @Groups("api_users_read_self")
+     * @Groups("api_recipes_browse")
      */
     private $category;
 
