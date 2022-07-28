@@ -31,8 +31,31 @@
         <div class="container">
         <nav class="navbar navbar-light bg-light">
                 <div>
-                    <h2><a href="{{ path('app_back_user_new') }}">O'Miam</a></h2>
-                    <div><i>Une histoire de Miam's !</i></div>
+                    <a href="{{ path('app_back_ingredient_index') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
+                    <img src="{{asset('bleu.jpg')}}" height="200" alt="Logo O'Miam"
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link disabled">Disabled</a>
+        </div>
+    </div>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('app_back_ingredient_index') }}">HomePage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_back_user_index') }}"><i class="bi bi-film"></i> Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_back_ingredient_index') }}"><i class="bi bi-bookmark"></i> Recipes</a>
+                        </li>
+                    </ul>
                 </div>
         </nav>
 

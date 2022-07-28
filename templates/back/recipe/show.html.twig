@@ -25,7 +25,15 @@
             </tr>
             <tr>
                 <th>Steps</th>
-                <td>{{ recipe.steps ? recipe.steps|json_encode : '' }}</td>
+                    <td>
+                        <ol> {% for step in recipe.steps %}
+                                {% if step %} 
+                                    <li>{{ step }} </li>
+                                {% endif %}   
+                            {% endfor %}
+                        </ol>
+                    </td>
+                {# <td>{{ recipe.steps ? recipe.steps : '' }}</td> #}
             </tr>
             <tr>
                 <th>Picture</th>
