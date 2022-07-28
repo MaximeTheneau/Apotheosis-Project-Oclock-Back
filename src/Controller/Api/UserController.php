@@ -48,7 +48,7 @@ class UserController extends ApiController
     {
         $jsonContent = $request->request->get('json');
 
-        // dd($jsonContent);
+        dd($request);
 
         try {
             $newUser = $this->serializer->deserialize($jsonContent, User::class, 'json');
@@ -62,7 +62,7 @@ class UserController extends ApiController
 
         $this->userRepo->add($newUser, true);
 
-        $this->userService->setPicture($newUser, $request);
+        $this->userService->setPicture($newUser, $request, $request->files->get('picture'));
 
         $this->userRepo->add($newUser, true);
 
@@ -92,7 +92,7 @@ class UserController extends ApiController
         $this->editData($upadtedUser, $userToPatch, $this->passwordHasher);
 
         if ($request->files->get('picture')) {
-            $this->userService->setPicture($userToPatch, $request);
+            $this->userService->setPicture($userToPatch, $request, $request->files->get('picture'));
         }
         
 
