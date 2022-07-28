@@ -134,7 +134,6 @@ class UserController extends ApiController
            $user = $this->tokenService->getToken()->getUser(); 
         }
         
-
         if(!$userToRead){
             return $this->json404();
         }
@@ -153,5 +152,31 @@ class UserController extends ApiController
             return new JsonResponse($jsonContent);
         }
         
+    }
+
+    /**
+     * @Route("/{id}/miams", name="_read_miams_recipe", methods={"GET"})
+     */
+    public function recipeMiamsUser(?User $userToRead){
+
+        $user = $this->tokenService->getToken()->getUser();
+
+        if(!$this->isGranted('ROLE_USER') || $user !== $userToRead){
+            return $this->json403();
+        }
+
+        if(!$userToRead){
+            return $this->json404();
+        }
+
+        $maimsRecipes = $userToRead->getFavorites();
+
+        $result = $this->json200($maimsRecipes, "api_users_read_self");
+
+        $jsonContent = json_decode($result->getContent());
+
+        $this->userService->selfReadMiamsRecipes($jsonContent);
+
+        return new JsonResponse($jsonContent);
     }
 }

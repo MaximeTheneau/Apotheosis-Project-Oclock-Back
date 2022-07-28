@@ -81,10 +81,11 @@ class AppFixtures extends Fixture
         $categoriesModel = new Category;
         
         $categories = [];
-        foreach ($categoriesModel->categories as $name) {
+        foreach ($categoriesModel->categories as $categoryModel) {
             $category = new EntityCategory;
 
-            $category->setName($name);
+            $category->setName($categoryModel['name']);
+            $category->setIconName($categoryModel['icon']);
             $category->setCreatedAt(new DateTime());
             $manager->persist($category);
 

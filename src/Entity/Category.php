@@ -52,6 +52,16 @@ class Category
      */
     private $recipes;
 
+    /**
+     * @ORM\Column(type="string", length=64)
+     * 
+     * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
+     */
+    private $iconName;
+
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
@@ -124,6 +134,18 @@ class Category
                 $recipe->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIconName(): ?string
+    {
+        return $this->iconName;
+    }
+
+    public function setIconName(string $iconName): self
+    {
+        $this->iconName = $iconName;
 
         return $this;
     }
