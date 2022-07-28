@@ -15,7 +15,7 @@
                         <th>Roles</th>
                         {# <th>Password</th> #}
                         <th>Pseudo</th>
-                        <th>Avatar</th>
+                        {# <th>Avatar</th> #}
                         <th>CreatedAt</th>
                         <th>UpdatedAt</th>
                         <th>Do you want to</th>
@@ -29,7 +29,7 @@
                         <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                         {# <td>{{ user.password }}</td> #}
                         <td>{{ user.pseudo }}</td>
-                        <td>{{ user.avatar }}</td>
+                        {# <td>{{ user.avatar }}</td> #}
                         <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                         <td>
