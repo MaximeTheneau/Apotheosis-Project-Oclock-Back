@@ -76,4 +76,28 @@ class UserService
             $filesystem->remove($pictureDir);
         }
     }
+
+    /**
+     * Function Who delete superfluous data in favorites->user
+     *
+     */
+    public function selfRead($jsonContent){
+
+        foreach ($jsonContent as $key => $value) {
+            if($key === "favorites"){
+                foreach ($value as $prop) {
+                    foreach ($prop as $name => $object) {
+                        if($name === "user"){
+                            foreach ($object as $index => $array) {
+                                if($index === "recipes" || $index === "favorites"){
+                                    unset($object->$index);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 }

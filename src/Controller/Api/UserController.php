@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 /**
  * @Route("/api/users", name="app_api_user")
@@ -143,7 +144,15 @@ class UserController extends ApiController
         if($user !== $userToRead || !$user){
             return $this->json200($userToRead, "api_users_read");
         }elseif($user === $userToRead){
-            return $this->json200($userToRead, "api_users_read_self");
+
+            
+            $result =  $this->json200($userToRead, "api_users_read_self");
+
+            $jsonContent = json_decode($result->getContent());
+
+            $this->userService->selfRead($jsonContent);
+            
+            return new JsonResponse($jsonContent);
         }
         
     }
