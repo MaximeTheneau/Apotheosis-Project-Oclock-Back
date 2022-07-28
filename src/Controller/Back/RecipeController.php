@@ -85,7 +85,7 @@ class RecipeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($request->files->get('recipe')['image'] || $request->get('recipe')){
+            if ($request->files->get('recipe')['image'] || $request->request->get('recipe')['deleteImage']){
                 $this->recipeService->setPicture($recipe, $request, $request->files->get('recipe')['image']);
             }
             
@@ -110,6 +110,7 @@ class RecipeController extends AbstractController
     public function delete(Request $request, Recipe $recipe, RecipeRepository $recipeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$recipe->getId(), $request->request->get('_token'))) {
+            $this->recipeService->deletePicture($recipe);
             $recipeRepository->remove($recipe, true);
         }
 

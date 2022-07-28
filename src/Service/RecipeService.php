@@ -28,6 +28,7 @@ class RecipeService
         $urlPicture = $request->getSchemeAndHttpHost().'/omiam/current/public/sources/images/recipe/';
 
         if (!$file) {
+            $this->deletePicture($recipe);
             switch ($recipe->getCategory()->getId()) {
                 case '1':
                     $urlPicture .= 'defaults/drink.png';
