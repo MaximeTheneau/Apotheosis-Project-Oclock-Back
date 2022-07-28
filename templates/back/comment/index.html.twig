@@ -9,9 +9,11 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Recipe</th>
+                <th>User</th>
                 <th>Content</th>
                 <th>CreatedAt</th>
-                <th>UpdatedAt</th>
+                {# <th>UpdatedAt</th> #}
                 <th>Do you want to</th>
             </tr>
         </thead>
@@ -19,9 +21,11 @@
         {% for comment in comments %}
             <tr>
                 <td>{{ comment.id }}</td>
+                <td>{{ comment.recipe.title }}</td>
+                <td>{{ comment.user.pseudo }}</td>
                 <td>{{ comment.content }}</td>
                 <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                {# <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
                 <td>
                     <a href="{{ path('app_back_comment_show', {'id': comment.id}) }}" class="btn btn-primary mt-1">Show this Comment</a>
                     <a href="{{ path('app_back_comment_edit', {'id': comment.id}) }}" class="btn btn-warning mt-1">Edit this Comment</a>
