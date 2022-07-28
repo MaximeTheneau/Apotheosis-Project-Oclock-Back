@@ -100,4 +100,20 @@ class UserService
         }
 
     }
+
+    public function selfReadMiamsRecipes($jsonContent){
+
+        foreach ($jsonContent as $prop) {
+            foreach ($prop as $name => $object) {
+                if($name === "user"){
+                    foreach ($object as $index => $array) {
+                        if($index === "recipes" || $index === "favorites"){
+                            unset($object->$index);
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
 }

@@ -56,6 +56,8 @@ class Recipe
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $caption;
 
@@ -102,6 +104,8 @@ class Recipe
      * @ORM\Column(type="smallint", options={"unsigned":true})
      * 
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $difficulty;
 
