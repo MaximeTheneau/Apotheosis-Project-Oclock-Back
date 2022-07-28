@@ -48,8 +48,6 @@ class UserController extends ApiController
     {
         $jsonContent = $request->request->get('json');
 
-        dd($request);
-
         try {
             $newUser = $this->serializer->deserialize($jsonContent, User::class, 'json');
         } catch (Exception $e) {
