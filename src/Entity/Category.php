@@ -23,6 +23,7 @@ class Category
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
      */
     private $id;
 
@@ -31,6 +32,8 @@ class Category
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $name;
 

@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -25,13 +27,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * 
-     * @Groups("api_users_read")
+     * @Groups("api_users_add_edit")
+     * @Groups("api_users_read_self")
      */
     private $email;
 
@@ -52,14 +56,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
      * 
+     * @Groups("api_users_add_edit")
      * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * 
+     * @Groups("api_users_add_edit")
      * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $avatar;
 
@@ -75,11 +83,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="user", orphanRemoval=true)
+     * 
+     * @MaxDepth(1)
+     * 
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
      */
     private $recipes;
 
     /**
      * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="usersWhoFavorized")
+     * 
+     * @MaxDepth(1)
+     * 
+     * @Groups("api_users_read_self")
      */
     private $favorites;
 
