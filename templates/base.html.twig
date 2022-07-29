@@ -49,22 +49,22 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav justify-content-end custom-text">
 							<li class="nav-item">
-								<a class="nav-link active" href="{{ path('app_back_home') }}">Accueil</a>
+								<a class="nav-link {% if 'home' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_home') }}">Home</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path('app_back_user_index') }}">Users</a>
+								<a class="nav-link {% if 'user' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_user_index') }}">Users</a>
 							</li>
                             <li class="nav-item">
-								<a class="nav-link" href="{{ path('app_back_recipe_index') }}">Recipes</a>
+								<a class="nav-link {% if 'recipe' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_recipe_index') }}">Recipes</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path('app_back_ingredient_index') }}">Ingredients</a>
+								<a class="nav-link {% if 'ingredient' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_ingredient_index') }}">Ingredients</a>
 							</li>
                             <li class="nav-item">
-								<a class="nav-link" href="{{ path('app_back_category_index') }}">Categories</a>
+								<a class="nav-link {% if 'category' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_category_index') }}">Categories</a>
 							</li>
                             <li class="nav-item">
-								<a class="nav-link" href="{{ path('app_back_comment_index') }}">Comments</a>
+								<a class="nav-link {% if 'comment' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_comment_index') }}">Comments</a>
 							</li>
 						</ul>
 					</div>
