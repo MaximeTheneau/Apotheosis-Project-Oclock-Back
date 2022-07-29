@@ -125,9 +125,10 @@ class RecipeController extends ApiController
         if (!$this->isGranted('ROLE_USER')) {
             return $this->json403();
         }
-
-        // $jsonContent = $request->getContent();
+        
         $jsonContent = $request->request->get('json');
+
+        $jsonContent = $this->recipeService->setFormatToAddRecipe($jsonContent);
 
         try {
             $newRecipe = $this->serializer->deserialize($jsonContent, Recipe::class, 'json');
