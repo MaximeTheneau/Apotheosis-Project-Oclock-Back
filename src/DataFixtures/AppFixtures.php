@@ -2,8 +2,6 @@
 
 namespace App\DataFixtures;
 
-
-
 use App\Entity\User;
 use DateTime;
 use App\Model\Category;
@@ -40,16 +38,18 @@ class AppFixtures extends Fixture
     private KernelInterface $kernel;
 
     public function __construct(
-        Connection $connection, 
+        Connection $connection,
         SluggerInterface $slugger,
-        KernelInterface $kernel)
+        KernelInterface $kernel
+    )
     {
         $this->connection = $connection;
         $this->slugger = $slugger;
         $this->kernel = $kernel;
     }
 
-    private function truncate(){
+    private function truncate()
+    {
         
         // We turn off checking foreign key contraint
         $this->connection->executeQuery('SET foreign_key_checks = 0');
@@ -67,11 +67,10 @@ class AppFixtures extends Fixture
 
         // We turn on checking foreign key contraint
         $this->connection->executeQuery('SET foreign_key_checks = 1');
-    } 
+    }
 
     public function load(ObjectManager $manager): void
     {
-        
         $this->truncate();
 
         //-----------------------------------------------------------------
@@ -136,6 +135,22 @@ class AppFixtures extends Fixture
 
         $users[] = $user2;
 
+        $userManager = new User;
+        $userManager->setPseudo('Manager');
+        $userManager->setEmail(('manager@omiam.com'));
+        $userManager->setPassword('$2y$13$R6esCiAvcNKeDIu/spJG0.Yb5mjhN4fzF26gm1ir/LwkaE2J48u8m'); // password : manager
+        $userManager->setRoles(['ROLE_MANAGER']);
+        $userManager->setCreatedAt(new DateTime());
+        $manager->persist($userManager);
+
+        $userAdmin = new User;
+        $userAdmin->setPseudo('Admin');
+        $userAdmin->setEmail(('admin@omiam.com'));
+        $userAdmin->setPassword('$2y$13$unl/SgZ2viDLF5.u1um4GOJLj4nipAAM6TOgYjK1wKp7Ofgk7ptcO'); // password : admin
+        $userAdmin->setRoles(['ROLE_ADMIN']);
+        $userAdmin->setCreatedAt(new DateTime());
+        $manager->persist($userAdmin);
+
 
         //-----------------------------------------------------------------
         //                      Create Recipes
@@ -190,7 +205,6 @@ class AppFixtures extends Fixture
         //-----------------------------------------------------------------
 
         foreach ($recipes as $recipe) {
-            
             $newComment = new Comment();
 
             $newComment->setContent('Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, cupiditate.');
@@ -199,7 +213,6 @@ class AppFixtures extends Fixture
             $newComment->setCreatedAt(new DateTime());
 
             $manager->persist($newComment);
-
         }
 
         $manager->flush();
