@@ -35,7 +35,9 @@
                         <td>
                             <a href="{{ path('app_back_user_show', {'id': user.id}) }}" class="btn btn-primary text-nowrap">Show this User Profile</a>
                             </br>
+                            {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('app_back_user_edit', {'id': user.id}) }}" class="btn btn-warning mt-1">Edit this User Profile</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}
@@ -46,7 +48,8 @@
                 </tbody>
             </table>
         
-
+        {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('app_back_user_new') }}" class="btn btn-success">Create new</a>
+        {% endif %}
     </div>
 {% endblock %}

@@ -52,5 +52,8 @@
         </tbody>
     </table>
 
+    {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ path('app_back_recipe_new') }}"class="btn btn-success mt-1">Create new</a>
+    {% endif %}
+
 {% endblock %}

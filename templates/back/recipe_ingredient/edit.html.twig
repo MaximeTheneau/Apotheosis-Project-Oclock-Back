@@ -9,5 +9,7 @@
 
     <a href="{{ path('app_back_recipe_ingredient_index') }}" class="btn btn-info mt-1">Back to list</a>
 
-    {{ include('back/recipe_ingredient/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ include('back/recipe_ingredient/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

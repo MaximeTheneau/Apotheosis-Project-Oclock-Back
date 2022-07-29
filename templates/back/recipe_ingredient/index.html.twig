@@ -24,7 +24,11 @@
                 <td>{{ recipe_ingredient.recipe.title }}</td>
                 <td>
                     <a href="{{ path('app_back_recipe_ingredient_show', {'id': recipe_ingredient.id}) }}" class="btn btn-primary mt-1">Show this RecipeIngredient</a>
+                    
+                    {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app_back_recipe_ingredient_edit', {'id': recipe_ingredient.id}) }}" class="btn btn-warning mt-1">Edit this RecipeIngredient</a>
+                    {% endif %}
+
                 </td>
             </tr>
         {% else %}
@@ -34,6 +38,9 @@
         {% endfor %}
         </tbody>
     </table>
-
+    
+    {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ path('app_back_recipe_ingredient_new') }}" class="btn btn-success mt-1">Create new</a>
+    {% endif %}
+    
 {% endblock %}
