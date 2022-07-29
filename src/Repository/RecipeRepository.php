@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Recipe;
+use App\Service\RecipeService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,9 +17,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RecipeRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $recipeService;
+
+    public function __construct(ManagerRegistry $registry, RecipeService $recipeService)
     {
         parent::__construct($registry, Recipe::class);
+        $this->recipeService = $recipeService;
     }
 
     public function add(Recipe $entity, bool $flush = false): void
@@ -41,11 +46,16 @@ class RecipeRepository extends ServiceEntityRepository
 
     public function findMostMiamsRecipes()
     {
-        return $this->createQueryBuilder('r')
-            ->orderBy('r.nbMiams', 'DESC')
-            ->setMaxResults(3)
+        $qb = $this->createQueryBuilder('r')
             ->getQuery()
             ->getResult();
+
+        $this->recipeService->countNbMiams($qb);
+        
+        $result = $this->recipeService->sortRecipesNbMiams($qb);
+
+        return $result;
+        
     }
 
     public function findLastRecipes()

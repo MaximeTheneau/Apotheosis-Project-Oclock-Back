@@ -3,7 +3,9 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Repository\RecipeRepository;
 use App\Repository\UserRepository;
+use App\Service\RecipeService;
 use App\Service\UserService;
 use DateTime;
 use Exception;
@@ -26,19 +28,25 @@ class UserController extends ApiController
     private $userService;
     private $userRepo;
     private $tokenService;
+    private $recipeRepository;
+    private $recipeService;
 
     public function __construct(
         SerializerInterface $serializer,
         UserPasswordHasherInterface $passwordHasher,
         UserService $userService,
         UserRepository $userRepository,
-        TokenStorageInterface $token
+        TokenStorageInterface $token,
+        RecipeRepository $recipeRepository,
+        RecipeService $recipeService
     ) {
         $this->serializer = $serializer;
         $this->passwordHasher = $passwordHasher;
         $this->userService = $userService;
         $this->userRepo = $userRepository;
         $this->tokenService = $token;
+        $this->recipeRepository = $recipeRepository;
+        $this->recipeService = $recipeService;
     }
 
     /**
@@ -137,6 +145,11 @@ class UserController extends ApiController
         if(!$userToRead){
             return $this->json404();
         }
+        $data = [];
+
+        $recipes = $this->recipeRepository->findBy(['user' => $userToRead]);
+
+        $this->recipeService->setEntity($recipes);
 
         if($user !== $userToRead || !$user){
             return $this->json200($userToRead, "api_users_read");
@@ -169,9 +182,13 @@ class UserController extends ApiController
             return $this->json404();
         }
 
-        $maimsRecipes = $userToRead->getFavorites();
+        $miamsRecipes = $userToRead->getFavorites();
 
-        $result = $this->json200($maimsRecipes, "api_users_read_self");
+        $miamsRecipes = $this->recipeRepository->findBy(['user' => $userToRead]);
+
+        $this->recipeService->setEntity($miamsRecipes);
+
+        $result = $this->json200($miamsRecipes, "api_users_read_self");
 
         $jsonContent = json_decode($result->getContent());
 

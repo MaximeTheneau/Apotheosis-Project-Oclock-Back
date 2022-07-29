@@ -59,6 +59,8 @@ class RecipeController extends ApiController
     {
         $allRecipes = $this->recipeRepository->findAll();
 
+        $this->recipeService->setEntity($allRecipes);
+
         return $this->json200($allRecipes, "api_recipes_browse");
     }
 
@@ -70,6 +72,8 @@ class RecipeController extends ApiController
         if ($recipe === null) {
             return $this->json404();
         }
+
+        $this->recipeService->setEntity([$recipe]);
 
         return $this->json200($recipe, "api_recipes_read");
     }
@@ -89,6 +93,8 @@ class RecipeController extends ApiController
             );
         }
 
+        $this->recipeService->setEntity($data);
+
         return $this->json200($data, "api_recipes_browse");
     }
 
@@ -105,6 +111,8 @@ class RecipeController extends ApiController
         if ($search === "") {
             return $this->json404();
         }
+
+        $this->recipeService->setEntity($searchRecipes);
 
         return $this->json200($searchRecipes, "api_recipes_browse");
     }
@@ -194,6 +202,8 @@ class RecipeController extends ApiController
 
         $this->recipeRepository->add($recipeToUpdate, true);
 
+        $this->recipeService->setEntity([$recipeToUpdate]);
+
         return $this->json200($recipeToUpdate, "api_recipes_read");
     }
 
@@ -230,7 +240,12 @@ class RecipeController extends ApiController
             return $this->json404();
         }
 
-        $recipesUser = $user->getRecipes();
+        $recipesUser = $this->recipeRepository->findBy(
+            ['user' => $user ]
+        );
+
+
+        $this->recipeService->setEntity($recipesUser);
 
         return $this->json200($recipesUser, "api_recipes_browse");
     }
@@ -266,6 +281,8 @@ class RecipeController extends ApiController
 
         $this->recipeRepository->add($recipe, true);
 
+        $this->recipeService->setEntity([$recipe]);
+
         return $this->json201($recipe, "api_recipes_read");
     }
 
@@ -289,6 +306,8 @@ class RecipeController extends ApiController
 
         $recipe->removeComment($comment);
 
+        $this->recipeService->setEntity([$recipe]);
+
         $this->recipeRepository->add($recipe, true);
 
         return $this->json204();
@@ -310,10 +329,11 @@ class RecipeController extends ApiController
             return $this->json404();
         }
 
-        $recipe->setNbMiams($recipe->getNbMiams()+1);
         $recipe->addUsersWhoFavorized($user);
 
         $this->recipeRepository->add($recipe, true);
+
+        $this->recipeService->setEntity([$recipe]);
 
         return $this->json200($recipe, "api_recipes_read");
     }

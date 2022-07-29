@@ -40,7 +40,7 @@ class Recipe
      * )
      * 
      * @Assert\Length(
-     *      min = 5,
+     *      min = 2,
      *      max = 32,
      *      minMessage = "Le Titre doit comporter au minimum {{ limit }} caractères",
      *      maxMessage = "Le Titre doit comporter au maximum {{ limit }} caractères"
@@ -86,7 +86,7 @@ class Recipe
     private $picture;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true, options={"unsigned":true, "default":0})
+     * 
      * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
@@ -94,6 +94,16 @@ class Recipe
      * @Groups("api_users_read_self")
      */
     private $nbMiams;
+
+    /**
+     * 
+     * 
+     * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
+     * @Groups("api_users_read")
+     * @Groups("api_users_read_self")
+     */
+    private $usersId = [];
 
     /**
      * @ORM\Column(type="smallint", options={"unsigned":true})
@@ -433,6 +443,26 @@ class Recipe
         if ($this->usersWhoFavorized->removeElement($usersWhoFavorized)) {
             $usersWhoFavorized->removeFavorite($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of usersId
+     */ 
+    public function getUsersId()
+    {
+        return $this->usersId;
+    }
+
+    /**
+     * Set the value of usersId
+     *
+     * @return  self
+     */ 
+    public function addUsersId($usersId)
+    {
+        $this->usersId[] = $usersId;
 
         return $this;
     }
