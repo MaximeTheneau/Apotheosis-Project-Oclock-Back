@@ -11,7 +11,7 @@ class Category{
         ],
         [
             "name" => "Entrée",
-            "icon" => "icon-entrence"
+            "icon" => "icon-entrance"
         ],
         [
             "name" => "Plat",

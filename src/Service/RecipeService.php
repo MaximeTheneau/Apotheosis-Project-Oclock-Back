@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Recipe;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
@@ -64,6 +65,49 @@ class RecipeService
 
         if ($filesystem->exists($pictureDir)) {
             $filesystem->remove($pictureDir);
+        }
+    }
+
+    public function setEntity(array $recipes)
+    {
+        $this->countNbMiams($recipes);
+        $this->usersIdInFavorites($recipes);
+    }
+
+    public function countNbMiams(array $recipes)
+    {
+        foreach ($recipes as $recipe) {
+            $recipe->setNbMiams(count($recipe->getUsersWhoFavorized()));
+        }
+    }
+
+    public function sortRecipesNbMiams(array $recipes)
+    {
+        $recipesSorted = [];
+        foreach ($recipes as $key => $recipe) {
+            $recipesSorted[$key] = $recipe->getNbMiams();
+        }
+        arsort($recipesSorted);
+
+
+        foreach ($recipesSorted as $index => $recipeSort) {
+            $recipesSorted[$index] = $recipes[$index];
+        }
+
+        return array_slice($recipesSorted, 0, 3);
+    }
+
+    public function usersIdInFavorites(array $recipes)
+    {
+        foreach ($recipes as $recipe) {
+            $users = $recipe->getUsersWhoFavorized()->toArray();
+            
+            foreach ($users as $user) {
+                if(!in_array($user->getId(), $recipe->getUsersId())){
+                   $recipe->addUsersId($user->getId()); 
+                }
+                
+            }
         }
     }
 }
