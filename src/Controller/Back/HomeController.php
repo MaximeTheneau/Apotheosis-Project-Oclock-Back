@@ -2,6 +2,7 @@
 
 namespace App\Controller\Back;
 
+use App\Repository\RecipeRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,9 +14,10 @@ class HomeController extends AbstractController
 {
     private $userRepo;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, RecipeRepository $recipeRepository)
     {
         $this->userRepo = $userRepository;
+        $this->recipeRepo = $recipeRepository;
     }
 
     /**
@@ -25,10 +27,10 @@ class HomeController extends AbstractController
     public function home(UserRepository $userRepository): Response
     {
         $nbUsers = $this->userRepo->findNbUsers();
-        //dd($nbUsers);
-        
+        $nbRecipes = $this->recipeRepo->findNbRecipes();
         return $this->render('back/home.html.twig', [
-        'nbUsers' => $nbUsers]);
+        'nbUsers' => $nbUsers,
+        'nbRecipes' => $nbRecipes]);
         
     }
 }
