@@ -11,24 +11,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    // private $userRepo;
+    private $userRepo;
 
-    // public function __construct(UserRepository $userRepository)
-    // {
-    //     $this->userRepo = $userRepository;
-    // }
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepo = $userRepository;
+    }
 
     /**
-     * @Route("/back", name="app_back_home", methods={"GET"})
+     * @Route("/back/home", name="app_back_home", methods={"GET"})
      */
 
     public function home(UserRepository $userRepository): Response
     {
-        // $nbUsers = $this->userRepo->findNbUsers();
-
-        // $data = 'nbUsers';
+        $nbUsers = $this->userRepo->findNbUsers();
+        //dd($nbUsers);
+        
         return $this->render('back/home.html.twig', [
-            'nbUsers' => $userRepository->findNbUsers(),
-        ]);
+        'nbUsers' => $nbUsers]);
+        
     }
 }
