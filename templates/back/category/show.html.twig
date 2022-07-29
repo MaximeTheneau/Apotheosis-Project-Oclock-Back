@@ -30,5 +30,8 @@
 
     <a href="{{ path('app_back_category_edit', {'id': category.id}) }}" class="btn btn-warning mt-1">edit</a>
 
-    {{ include('back/category/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ include('back/category/_delete_form.html.twig') }}
+    {% endif %}
+
 {% endblock %}

@@ -5,7 +5,7 @@
 {% block body %}
 
 
-
+<div class="text-center">
 <h1> Bienvenue sur le BackOffice d'O'Miam </h1>
 <br>
 <h2> Welcome on the O'Miam's BackOffice </h2>
@@ -14,9 +14,52 @@
 <br>
 <h4> Wilkommen im BackOffice von O'Miam </h4>
 <br>
-<p> Nous sommes le {{ "now"|date("d/m/Y") }} </p>
+</div>
 
-<p> Nous avons {{ nbUsers }} utilisateurs enregistrés </p>
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    
+    <div class="col">
+        <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header text-center" style="background-color: #007172;">Aujourd'hui</div>
+        <div class="card-body text-dark">
+            <h5 class="card-title text-center">Nous sommes le</h5>
+            <p class="card-text text-center">{{ "now"|date("d/m/Y") }}</p>
+        </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header text-center" style="background-color: #d94f04;">Aujourd'hui</div>
+        <div class="card-body text-dark">
+            <h5 class="card-title text-center">Nous avons</h5>
+            <p class="card-text text-center">{{ nbUsers }} utilisateurs enregistrés</p>
+        </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header text-center" style="background-color: #d94f04;">Aujourd'hui</div>
+        <div class="card-body text-dark">
+            <h5 class="card-title text-center">Nous avons</h5>
+            <p class="card-text text-center">{{ 'beaucoup' }} d'excellentes recettes</p>
+        </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header text-center" style="background-color: #007172;">Aujourd'hui</div>
+        <div class="card-body text-dark">
+            <h5 class="card-title text-center">Nous sommes</h5>
+            <p class="card-text text-center">5 développeurs au top !!</p>
+        </div>
+        </div>
+    </div>
+
+</div>
+
 
 
 {% endblock %}

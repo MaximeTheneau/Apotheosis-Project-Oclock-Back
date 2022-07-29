@@ -28,7 +28,10 @@
 
     <a href="{{ path('app_back_ingredient_index') }}" class="btn btn-info mt-1">back to list</a>
 
-    <a href="{{ path('app_back_ingredient_edit', {'id': ingredient.id}) }}" class="btn btn-warning mt-1">edit</a>
+        <a href="{{ path('app_back_ingredient_edit', {'id': ingredient.id}) }}" class="btn btn-warning mt-1">edit</a>
 
-    {{ include('back/ingredient/_delete_form.html.twig') }}
+        {% if is_granted('ROLE_ADMIN') %}
+            {{ include('back/ingredient/_delete_form.html.twig') }}
+        {% endif %}
+
 {% endblock %}
