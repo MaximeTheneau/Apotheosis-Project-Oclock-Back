@@ -38,7 +38,10 @@
                 <td>{{ recipe.updatedAt ? recipe.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_back_recipe_show', {'id': recipe.id}) }}"class="btn btn-primary text-nowrap">Show this Recipe</a>
-                    <a href="{{ path('app_back_recipe_edit', {'id': recipe.id}) }}"class="btn btn-warning mt-1">Edit this Recipe</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_back_recipe_edit', {'id': recipe.id}) }}"class="btn btn-warning mt-1">Edit this Recipe</a>
+                    {% endif %}
+                    
                 </td>
             </tr>
         {% else %}

@@ -46,6 +46,17 @@ security:
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/contact, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/back/user*, roles: ROLE_ADMIN }
+
+        - { path: ^/back/recipe/\d+/edit, roles: ROLE_ADMIN, methods: POST }
+
+        - { path: ^/back/comment/\d+, roles: ROLE_MANAGER, methods: POST }
+
+        - { path: ^/back/\D+/\d+, roles: ROLE_ADMIN, methods: POST }
+
+        - { path: ^/back/*, roles: ROLE_MANAGER }
+        
         # - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use App\Entity\Ingredient;
 use App\Form\IngredientType;
 use App\Repository\IngredientRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +36,8 @@ class IngredientController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ingredient->setCreatedAt(new DateTime());
+
             $ingredientRepository->add($ingredient, true);
 
             return $this->redirectToRoute('app_back_ingredient_index', [], Response::HTTP_SEE_OTHER);
@@ -65,6 +68,9 @@ class IngredientController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $ingredient->setUpdatedAt(new DateTime());
+
             $ingredientRepository->add($ingredient, true);
 
             return $this->redirectToRoute('app_back_ingredient_index', [], Response::HTTP_SEE_OTHER);

@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +36,7 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setCreatedAt(new DateTime());
             $commentRepository->add($comment, true);
 
             return $this->redirectToRoute('app_back_comment_index', [], Response::HTTP_SEE_OTHER);
@@ -65,6 +67,9 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $comment->setUpdatedAt(new DateTime());
+
             $commentRepository->add($comment, true);
 
             return $this->redirectToRoute('app_back_comment_index', [], Response::HTTP_SEE_OTHER);
