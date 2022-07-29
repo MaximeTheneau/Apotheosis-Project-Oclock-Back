@@ -103,11 +103,29 @@ class RecipeService
             $users = $recipe->getUsersWhoFavorized()->toArray();
             
             foreach ($users as $user) {
-                if(!in_array($user->getId(), $recipe->getUsersId())){
-                   $recipe->addUsersId($user->getId()); 
+                if (!in_array($user->getId(), $recipe->getUsersId())) {
+                    $recipe->addUsersId($user->getId());
                 }
-                
             }
         }
+    }
+
+    public function setFormatToAddRecipe($jsonContent)
+    {
+        $array = json_decode($jsonContent);
+
+        foreach ($array as $key => $value) {
+            if ($key === "recipeIngredients") {
+                foreach ($value as $index => $recipeIngredient) {
+                    if (gettype($recipeIngredient->ingredient) === 'string') {
+                        $recipeIngredient->ingredient = intval($recipeIngredient->ingredient);
+                    }
+                    
+                    $recipeIngredient->quantity = intval($recipeIngredient->quantity);
+                }
+            }
+        }
+
+        return json_encode($array);
     }
 }
