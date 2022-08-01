@@ -40,7 +40,7 @@
 				<nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #007172;">
                 <div class="container-fluid">
 					<a href="{{ path('app_back_home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none header-logo">
-						<img src="{{asset('Omiam.jpg')}}" height="200" alt="Logo O'Miam">
+						<img src="{{asset('Omiam.jpg')}}" height="175" alt="Logo O'Miam">
 						
 					</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
@@ -59,6 +59,9 @@
 							</li>
 							<li class="nav-item">
 								<a class="nav-link {% if 'ingredient' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_ingredient_index') }}">Ingredients</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link {% if 'groceries' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_recipe_ingredient_index') }}">Groceries</a>
 							</li>
                             <li class="nav-item">
 								<a class="nav-link {% if 'category' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_category_index') }}">Categories</a>

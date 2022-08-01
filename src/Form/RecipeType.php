@@ -28,7 +28,8 @@ class RecipeType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => "Titre de la Recette"])
             ->add('caption', TextType::class, [
-                'label' => 'Brève histoire de votre Recette'
+                'label' => 'Brève histoire de votre Recette',
+                'required' => false
                 ])
 
             ->add(
