@@ -39,7 +39,7 @@
 
 				<nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #007172;">
                 <div class="container-fluid">
-					<a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none header-logo">
+					<a href="{{ path('app_back_home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none header-logo">
 						<img src="{{asset('Omiam.jpg')}}" height="200" alt="Logo O'Miam">
 						
 					</a>
@@ -68,6 +68,24 @@
 							</li>
 						</ul>
 					</div>
+
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        
+						{# maintenant que l'on a l'auth on peut utiliser app.user #}
+						{% if app.user == null %}
+							<a href="{{ path('app_login')}}" class="btn  me-2" style="color:white;">Connexion</a>
+						{% else %}
+							<ul class="list-unstyled">
+								<li>
+									<span style="color:white;">{{ app.user.pseudo }}</span>
+									<i class="bi bi-person-square"></i>
+								</li>									
+								<li><a style="text-decoration:none; color:white;" href="{{ path('app_logout')}}">Déconnexion</a></li>
+							</ul>
+						{% endif %}
+                            
+
+                    </ul>
 				</div>
 			</nav>
 
