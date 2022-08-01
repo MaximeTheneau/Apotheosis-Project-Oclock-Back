@@ -126,6 +126,7 @@ class RecipeController extends ApiController
         if (!$this->isGranted('ROLE_USER')) {
             return $this->json403();
         }
+
         
         $jsonContent = $request->request->get('json');
 
@@ -135,10 +136,11 @@ class RecipeController extends ApiController
             return $this->json400();
         }
 
-        dump($newRecipe);
-
         $this->recipeService->setRecipeIngredients($request->request->get('ingredients'), $newRecipe);
 
+        
+        $this->recipeService->setRecipeIngredients($request->request->get('ingredientsAdd'), $newRecipe);
+        
         $user = $this->tokenService->getToken()->getUser();
 
         $newRecipe->setUser($user);

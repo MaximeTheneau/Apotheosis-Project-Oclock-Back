@@ -121,24 +121,35 @@ class RecipeService
     public function setRecipeIngredients($jsonContent, Recipe $recipe)
     {
 
-        $ingredientsJson = (array) json_decode($jsonContent);
+        $ingredientsJson = json_decode($jsonContent);
 
         $recipesIngredients = [];
+        
 
         $regex = "/(\D+)(\d+)$/";
+        $regexName = "/(\D+)/";
         foreach ($ingredientsJson as $index => $value) {
 
             foreach ($value as $key => $unit) {
                 
                 preg_match($regex, $key, $matches);
-                if(str_contains($key, 'quantity') || str_contains($key, 'ingredient')){
+                if(str_contains($key, 'quantity')){
                     $recipesIngredients[$matches[2]][$matches[1]] = intval($unit);
-                } else {
+                } elseif (str_contains($key, 'ingredient')) {
+                    if(preg_match($regexName, $unit)){
+                        $recipesIngredients[$matches[2]][$matches[1]]['name'] = $unit;
+                    }else {
+                        $recipesIngredients[$matches[2]][$matches[1]] = intval($unit);
+                    }
+                }
+                 else {
                     $recipesIngredients[$matches[2]][$matches[1]] = $unit;
                 }
                 
             }  
         }
+
+        
 
         foreach ($recipesIngredients as $i => $recipeIngredient) {
 
@@ -151,5 +162,6 @@ class RecipeService
             $recipe->addRecipeIngredient($recipesIngredients[$i]);
  
         }
+
     }
 }
