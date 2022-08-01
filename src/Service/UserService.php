@@ -51,16 +51,16 @@ class UserService
     
     public function setPicture(User $user, Request $request, ?File $file)
     {
-        $urlPicture = $request->getSchemeAndHttpHost().'/omiam/current/public/sources/images/user/';
+        $urlPicture = $request->getSchemeAndHttpHost().'/omiam/sources/images/user/';
 
         if (!$file) {
             $this->deletePicture($user);
-            $urlPicture .= 'default/user.png';
+            $urlPicture .= 'default/user.jpg';
         } else {
-            $urlPicture .= 'avatar_'.$user->getId().'.png';
+            $urlPicture .= 'avatar_'.$user->getId().'.jpg';
 
-            // $file->move('/var/www/html/omiam/current/public/sources/images/user/', 'avatar_'.$user->getId().'.png');
-            $file->move($this->projectDir . $this->sourcesDir . $this->usersImageDir, 'avatar_'.$user->getId().'.png');
+            // $file->move('/var/www/html/omiam/current/public/sources/images/user/', 'avatar_'.$user->getId().'.jpg');
+            $file->move($this->projectDir . $this->sourcesDir . $this->usersImageDir, 'avatar_'.$user->getId().'.jpg');
         }
 
         $user->setAvatar($urlPicture);
@@ -70,7 +70,7 @@ class UserService
     {
         $filesystem = new Filesystem();
 
-        $pictureDir = $this->projectDir . $this->sourcesDir . $this->usersImageDir . 'avatar_'.$user->getId().'.png';
+        $pictureDir = $this->projectDir . $this->sourcesDir . $this->usersImageDir . 'avatar_'.$user->getId().'.jpg';
 
         if ($filesystem->exists($pictureDir)) {
             $filesystem->remove($pictureDir);

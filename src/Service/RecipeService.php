@@ -34,32 +34,32 @@ class RecipeService
 
     public function setPicture(Recipe $recipe, Request $request, ?File $file)
     {
-        $urlPicture = $request->getSchemeAndHttpHost().'/omiam/current/public/sources/images/recipe/';
+        $urlPicture = $request->getSchemeAndHttpHost().'/omiam/sources/images/recipe/';
 
         if (!$file) {
             $this->deletePicture($recipe);
             switch ($recipe->getCategory()->getId()) {
                 case '1':
-                    $urlPicture .= 'defaults/drink.png';
+                    $urlPicture .= 'defaults/drink.jpg';
                     break;
                 
                 case '2':
-                    $urlPicture .= 'defaults/entre.png';
+                    $urlPicture .= 'defaults/entre.jpg';
                     break;
             
                 case '3':
-                    $urlPicture .= 'defaults/dish.png';
+                    $urlPicture .= 'defaults/dish.jpg';
                     break;
         
                 case '4':
-                    $urlPicture .= 'defaults/cake.png';
+                    $urlPicture .= 'defaults/cake.jpg';
                     break;
             }
         } else {
-            $urlPicture .= 'recipe_'.$recipe->getId().'.png';
+            $urlPicture .= 'recipe_'.$recipe->getId().'.jpg';
 
-            $file->move($this->projectDir . $this->sourcesDir . $this->recipesImageDir, 'recipe_'.$recipe->getId().'.png');
-            // $file->move('/var/www/html/projet-11-omiam-back/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.png'); //for dev in localhost
+            $file->move($this->projectDir . $this->sourcesDir . $this->recipesImageDir, 'recipe_'.$recipe->getId().'.jpg');
+            // $file->move('/var/www/html/projet-11-omiam-back/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.jpg'); //for dev in localhost
         }
 
         $recipe->setPicture($urlPicture);
@@ -69,7 +69,7 @@ class RecipeService
     {
         $filesystem = new Filesystem();
 
-        $pictureDir = $this->projectDir . $this->sourcesDir . $this->recipesImageDir . 'recipe_'.$recipe->getId().'.png';
+        $pictureDir = $this->projectDir . $this->sourcesDir . $this->recipesImageDir . 'recipe_'.$recipe->getId().'.jpg';
 
         if ($filesystem->exists($pictureDir)) {
             $filesystem->remove($pictureDir);
