@@ -122,6 +122,7 @@ task('init:config:write:prod', function() {
     // {{remote_server_target_repository}} == '/var/www/html/oflix
     run('echo "APP_ENV=prod" > {{remote_server_target_repository}}/shared/.env.local');
     run('echo "DATABASE_URL={{env_database}}" >> {{remote_server_target_repository}}/shared/.env.local');
+    run('echo "CORS_ALLOW_ORIGIN=\'*\'" >> {{remote_server_target_repository}}/shared/.env.local');
 });
 
 // TODO
@@ -199,6 +200,31 @@ task('dev_update', [
     // 'init:write:cors',
 
     'init:jwt:passphrase',
+    
+    // https://deployer.org/docs/7.x/recipe/common#deploypublish
+    'deploy:publish'
+]);
+
+task('prod_update', [
+    // https://deployer.org/docs/7.x/recipe/common#deployprepare
+    'deploy:prepare',
+
+    // https://deployer.org/docs/7.x/recipe/deploy/vendors#deployvendors
+    'deploy:vendors',
+
+    // https://deployer.org/docs/7.x/recipe/symfony#deploycacheclear
+    'deploy:cache:clear',
+
+    // https://deployer.org/docs/7.x/recipe/symfony#databasemigrate
+    'database:migrate',
+
+    'init:config:write:prod',
+
+    // 'init:fixtures',
+
+    // 'init:write:cors',
+
+    // 'init:jwt:passphrase',
     
     // https://deployer.org/docs/7.x/recipe/common#deploypublish
     'deploy:publish'
