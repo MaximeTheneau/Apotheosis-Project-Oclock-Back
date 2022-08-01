@@ -194,7 +194,7 @@ task('dev_update', [
     // https://deployer.org/docs/7.x/recipe/symfony#databasemigrate
     'database:migrate',
 
-    'init:fixtures',
+    // 'init:fixtures',
 
     // 'init:write:cors',
 

@@ -2,12 +2,16 @@
 
 namespace App\Service;
 
+use App\Controller\Api\ApiController;
 use App\Entity\Recipe;
+use App\Entity\RecipeIngredient;
 use Doctrine\Common\Collections\Collection;
+use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class RecipeService
 {
@@ -15,13 +19,17 @@ class RecipeService
     private $projectDir;
     private $sourcesDir;
     private $recipesImageDir;
+    private $apiController;
+    private $serializer;
 
-    public function __construct(ContainerBagInterface $params)
+    public function __construct(ContainerBagInterface $params, ApiController $apiController, SerializerInterface $serializer)
     {
         $this->params = $params;
         $this->projectDir = $this->params->get('app.projectDir');
         $this->sourcesDir = $this->params->get('app.sourcesDir');
         $this->recipesImageDir = $this->params->get('app.recipesImageDir');
+        $this->apiController = $apiController;
+        $this->serializer = $serializer;
     }
 
     public function setPicture(Recipe $recipe, Request $request, ?File $file)
@@ -110,22 +118,38 @@ class RecipeService
         }
     }
 
-    public function setFormatToAddRecipe($jsonContent)
+    public function setRecipeIngredients($jsonContent, Recipe $recipe)
     {
-        $array = json_decode($jsonContent);
 
-        foreach ($array as $key => $value) {
-            if ($key === "recipeIngredients") {
-                foreach ($value as $index => $recipeIngredient) {
-                    if (gettype($recipeIngredient->ingredient) === 'string') {
-                        $recipeIngredient->ingredient = intval($recipeIngredient->ingredient);
-                    }
-                    
-                    $recipeIngredient->quantity = intval($recipeIngredient->quantity);
+        $ingredientsJson = (array) json_decode($jsonContent);
+
+        $recipesIngredients = [];
+
+        $regex = "/(\D+)(\d+)$/";
+        foreach ($ingredientsJson as $index => $value) {
+
+            foreach ($value as $key => $unit) {
+                
+                preg_match($regex, $key, $matches);
+                if(str_contains($key, 'quantity') || str_contains($key, 'ingredient')){
+                    $recipesIngredients[$matches[2]][$matches[1]] = intval($unit);
+                } else {
+                    $recipesIngredients[$matches[2]][$matches[1]] = $unit;
                 }
-            }
+                
+            }  
         }
 
-        return json_encode($array);
+        foreach ($recipesIngredients as $i => $recipeIngredient) {
+
+            try {
+                $recipesIngredients[$i] = $this->serializer->deserialize(json_encode($recipeIngredient), RecipeIngredient::class, 'json');
+            } catch (Exception $e) {
+                return $this->apiController->json400();
+            }
+
+            $recipe->addRecipeIngredient($recipesIngredients[$i]);
+ 
+        }
     }
 }
