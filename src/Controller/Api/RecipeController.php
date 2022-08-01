@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Comment;
 use App\Entity\Recipe;
+use App\Entity\RecipeIngredient;
 use App\Entity\User;
 use App\Repository\CommentRepository;
 use App\Repository\RecipeRepository;
@@ -128,18 +129,19 @@ class RecipeController extends ApiController
         
         $jsonContent = $request->request->get('json');
 
-        $jsonContent = $this->recipeService->setFormatToAddRecipe($jsonContent);
-
         try {
             $newRecipe = $this->serializer->deserialize($jsonContent, Recipe::class, 'json');
         } catch (Exception $e) {
             return $this->json400();
         }
 
+        dump($newRecipe);
+
+        $this->recipeService->setRecipeIngredients($request->request->get('ingredients'), $newRecipe);
+
         $user = $this->tokenService->getToken()->getUser();
 
         $newRecipe->setUser($user);
-        $newRecipe->setNbMiams(0);
         $newRecipe->setCreatedAt(new DateTime());
         $newRecipe->setSlug($this->slugger->slug($newRecipe->getTitle()));
 
