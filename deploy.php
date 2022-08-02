@@ -119,7 +119,6 @@ task('init:fixtures', function () {
 // TODO
 desc('écraser le .env.local PUIS écrire les paramètres de PROD');
 task('init:config:write:prod', function() {
-    // {{remote_server_target_repository}} == '/var/www/html/oflix
     run('echo "APP_ENV=prod" > {{remote_server_target_repository}}/shared/.env.local');
     run('echo "DATABASE_URL={{env_database}}" >> {{remote_server_target_repository}}/shared/.env.local');
     run('echo "CORS_ALLOW_ORIGIN=\'*\'" >> {{remote_server_target_repository}}/shared/.env.local');

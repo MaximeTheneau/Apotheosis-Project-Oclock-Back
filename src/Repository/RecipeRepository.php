@@ -71,7 +71,7 @@ class RecipeRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->orderBy('RAND()')
-            ->setMaxResults(2)
+            ->setMaxResults(3)
             ->getQuery()
             ->getResult();
     }
