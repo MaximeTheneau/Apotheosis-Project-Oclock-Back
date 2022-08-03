@@ -319,10 +319,10 @@ class RecipeController extends ApiController
     }
 
     /**
-     * @Route("/{id}/miams", name="_miams", methods={"POST"})
+     * @Route("/{id}/miams", name="_miams", methods={"GET"})
      *
      */
-    public function miams(?Recipe $recipe, Request $request)
+    public function miams(?Recipe $recipe)
     {
         $user = $this->tokenService->getToken()->getUser();
 
@@ -334,9 +334,9 @@ class RecipeController extends ApiController
             return $this->json404();
         }
 
-        $content = (array) json_decode($request->getContent());
+        $usersWhoFavorized = $recipe->getUsersWhoFavorized();
 
-        $isMiam = $content['miam'];
+        $isMiam = in_array($user, $usersWhoFavorized->toArray());
 
         if($isMiam){
             $recipe->removeUsersWhoFavorized($user);
