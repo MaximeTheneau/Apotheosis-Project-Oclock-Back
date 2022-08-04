@@ -89,6 +89,11 @@ class RecipeController extends AbstractController
                 $this->recipeService->setPicture($recipe, $request, $request->files->get('recipe')['image']);
             }
             
+            
+
+            $steps = $this->recipeService->editBackRecipeSteps($recipe->getSteps());
+ 
+            $recipe->setSteps($steps);
 
             $recipe->setUpdatedAt(new DateTime());
             $recipe->setSlug($this->slugger->slug($recipe->getTitle()));
