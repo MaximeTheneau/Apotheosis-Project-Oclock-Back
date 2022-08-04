@@ -42,15 +42,15 @@ class RecipeService
                 case '1':
                     $urlPicture .= 'defaults/drink.jpg';
                     break;
-                
+
                 case '2':
                     $urlPicture .= 'defaults/entre.jpg';
                     break;
-            
+
                 case '3':
                     $urlPicture .= 'defaults/dish.jpg';
                     break;
-        
+
                 case '4':
                     $urlPicture .= 'defaults/cake.jpg';
                     break;
@@ -109,7 +109,7 @@ class RecipeService
     {
         foreach ($recipes as $recipe) {
             $users = $recipe->getUsersWhoFavorized()->toArray();
-            
+
             foreach ($users as $user) {
                 if (!in_array($user->getId(), $recipe->getUsersId())) {
                     $recipe->addUsersId($user->getId());
@@ -120,39 +120,33 @@ class RecipeService
 
     public function setRecipeIngredients($jsonContent, Recipe $recipe)
     {
-
         $ingredientsJson = json_decode($jsonContent);
 
         $recipesIngredients = [];
-        
+
 
         $regex = "/(\D+)(\d+)$/";
         $regexName = "/(\D+)/";
         foreach ($ingredientsJson as $index => $value) {
-
             foreach ($value as $key => $unit) {
-                
                 preg_match($regex, $key, $matches);
-                if(str_contains($key, 'quantity')){
+                if (str_contains($key, 'quantity')) {
                     $recipesIngredients[$matches[2]][$matches[1]] = intval($unit);
                 } elseif (str_contains($key, 'ingredient')) {
-                    if(preg_match($regexName, $unit)){
+                    if (preg_match($regexName, $unit)) {
                         $recipesIngredients[$matches[2]][$matches[1]]['name'] = $unit;
-                    }else {
+                    } else {
                         $recipesIngredients[$matches[2]][$matches[1]] = intval($unit);
                     }
-                }
-                 else {
+                } else {
                     $recipesIngredients[$matches[2]][$matches[1]] = $unit;
                 }
-                
-            }  
+            }
         }
 
-        
+
 
         foreach ($recipesIngredients as $i => $recipeIngredient) {
-
             try {
                 $recipesIngredients[$i] = $this->serializer->deserialize(json_encode($recipeIngredient), RecipeIngredient::class, 'json');
             } catch (Exception $e) {
@@ -160,8 +154,17 @@ class RecipeService
             }
 
             $recipe->addRecipeIngredient($recipesIngredients[$i]);
- 
+        }
+    }
+
+    public function editBackRecipeSteps(array $steps)
+    {
+        foreach ($steps as $key => $value) {
+            if (!$value) {
+                unset($steps[$key]);
+            }
         }
 
+        return $steps;
     }
 }
