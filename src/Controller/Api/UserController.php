@@ -184,9 +184,9 @@ class UserController extends ApiController
 
         $miamsRecipes = $userToRead->getFavorites();
 
-        $miamsRecipes = $this->recipeRepository->findBy(['user' => $userToRead]);
 
-        $this->recipeService->setEntity($miamsRecipes);
+        $this->recipeService->setEntity($miamsRecipes->toArray());
+
 
         $result = $this->json200($miamsRecipes, "api_users_read_self");
 
