@@ -58,6 +58,8 @@ class RecipeService
         } else {
             $urlPicture .= 'recipe_'.$recipe->getId().'.jpg';
 
+            dd($file);
+
             $file->move($this->projectDir . $this->sourcesDir . $this->recipesImageDir, 'recipe_'.$recipe->getId().'.jpg');
             // $file->move('/var/www/html/projet-11-omiam-back/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.jpg'); //for dev in localhost
         }

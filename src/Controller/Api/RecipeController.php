@@ -123,7 +123,7 @@ class RecipeController extends ApiController
      */
     public function add(Request $request): JsonResponse
     {
-        dump(ini_get('upload_max_filesize'));
+        
         if (!$this->isGranted('ROLE_USER')) {
             return $this->json403();
         }
