@@ -69,6 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups("api_users_read")
      * @Groups("api_users_read_self")
      * @Groups("api_recipes_browse")
+     * @Groups("api_recipes_read")
      */
     private $avatar;
 
