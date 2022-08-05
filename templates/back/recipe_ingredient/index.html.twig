@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Ingredient</th>
                 <th>Unit</th>
                 <th>Quantity</th>
                 <th>Recipe</th>
@@ -19,6 +20,7 @@
         {% for recipe_ingredient in recipe_ingredients %}
             <tr>
                 <td>{{ recipe_ingredient.id }}</td>
+                <td>{{ recipe_ingredient.ingredient.name }}</td>
                 <td>{{ recipe_ingredient.unit }}</td>
                 <td>{{ recipe_ingredient.quantity }}</td>
                 <td>{{ recipe_ingredient.recipe.title }}</td>
