@@ -25,7 +25,7 @@ class IngredientController extends ApiController
      */
     public function browse(): JsonResponse
     {
-        $allIngredients = $this->ingredientRepo->findAll();
+        $allIngredients = $this->ingredientRepo->findAllSort();
 
         return $this->json200($allIngredients, "api_ingredients_browse");
     }
