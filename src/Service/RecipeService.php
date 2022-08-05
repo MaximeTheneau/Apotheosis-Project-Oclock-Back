@@ -34,7 +34,7 @@ class RecipeService
 
     public function setPicture(Recipe $recipe, Request $request, ?File $file)
     {
-        $urlPicture = $request->getSchemeAndHttpHost().'/omiam/sources/images/recipe/';
+        $urlPicture = 'http://adrienpinilla-server.eddi.cloud/omiam/sources/images/recipe/';
 
         if (!$file) {
             $this->deletePicture($recipe);
