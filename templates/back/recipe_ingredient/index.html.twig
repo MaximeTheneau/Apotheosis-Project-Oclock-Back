@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecipeIngredient index{% endblock %}
+
+{% block body %}
+    <h1>RecipeIngredient index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ingredient</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Recipe</th>
+                <th>Do you want to :</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for recipe_ingredient in recipe_ingredients %}
+            <tr>
+                <td>{{ recipe_ingredient.id }}</td>
+                <td>{{ recipe_ingredient.ingredient.name }}</td>
+                <td>{{ recipe_ingredient.unit }}</td>
+                <td>{{ recipe_ingredient.quantity }}</td>
+                <td>{{ recipe_ingredient.recipe.title }}</td>
+                <td>
+                    <a href="{{ path('app_back_recipe_ingredient_show', {'id': recipe_ingredient.id}) }}" class="btn btn-primary mt-1">Show</a>
+                    
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_back_recipe_ingredient_edit', {'id': recipe_ingredient.id}) }}" class="btn btn-warning mt-1">Edit</a>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_back_recipe_ingredient_new') }}" class="btn btn-success mt-1">Create new</a>
+    {% endif %}
+    
+{% endblock %}
