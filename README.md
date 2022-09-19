@@ -50,7 +50,7 @@ Scripts
 
 ``` php bin/console cache:clear ``` : videz les caches 
 	
-	` php bin/console lexik:jwt:generate-keypair --overwrite` : à la première installation
+```php bin/console lexik:jwt:generate-keypair --overwrite``` : à la première installation
 
 
 
