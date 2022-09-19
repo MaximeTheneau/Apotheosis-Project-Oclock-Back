@@ -39,7 +39,7 @@ Scripts
 ```sh
 # Installer les dépendances :
 
-	$ composer installl
+	$ composer install
 	
 # Lancez le serveur :
 
