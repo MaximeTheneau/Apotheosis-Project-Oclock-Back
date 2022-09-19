@@ -46,7 +46,7 @@ Scripts
 	$ php -S 0.0.0.0:8080 -t public
 ```
 
-### Commande utile :
+### Commandes utiles :
 
 ``` php bin/console cache:clear ``` : videz les caches 
 	
