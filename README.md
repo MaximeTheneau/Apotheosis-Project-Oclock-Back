@@ -1,38 +1,74 @@
-# projet-11-omiam-back
+# Apotheosis project Oclock Back
 
-## Présentation du Projet
+Projet réaliser lors de l'apothéose durant la formation chez [O'Clock](https://oclock.io/)
 
-Tout le monde sait ce qu’est un réseau social, mais connaissez-vous un réseau social autour des recettes de cuisine ?
-Vous vous êtes sûrement déjà retrouvé dans la situation où vous dînez chez des amis et leurs lasagnes sont tout simplement délicieuses ! Vous demandez la recette à vos amis et là vient le moment un peu pénible car c’est sur un vieux carnet de famille écrit à la main...
-Deux solutions se présentent à vous: prendre une photo ou recopier la recette sur une feuille. 
-Mais la photo va se perdre dans la masse et la feuille risque de se perdre…
+Déjà retrouvé à dînez chez des amis et leurs lasagnes sont tout simplement délicieuses ?!?
 
-Ne vous inquiétez pas:  O’Miam est là pour régler ce problème ! 
-Et oui ce projet a pour but de créer un réseau social autour des recettes de cuisine, il vous suffira de créer un compte, de saisir vos recettes ou de miamer les recettes de vos amis, et en deux coup de cuillère à pot, c’est réglé !
+Avec O’Miam le réseau social des recettes de cuisine, retrouverez facilement la recettes de vos amis !!!
 
-Miamer ?? Qu'est-ce donc que ça ??
-Miamer: un utilisateur pourra mettre un miam à une recette de façon à l'ajouter dans sa liste de recettes favorites.
-L’utilisateur pourra consulter sa liste de recettes favorites depuis sa page de profil.
+[Demo](https://omiam-v1.surge.sh/)
 
-Les autres fonctionnalités d'O'Miam seront les suivantes :
+### Fonctionnalités du Projet
 
-- Accès au site en étant Connecté ou Anonyme
-- Création d'un compte utilisateur
-
-L'utilisateur inscrit/connecté peut :
-- Publier une recette
-- Miamer une recette
+- Création d’un utilisateur
+- Edition du compte Utilisateur
+- Connexion d’un utilisateur
+- Liste des recettes de l'utilisateur
 - Ajout d’un commentaire à une recette
-- Accéder à un Formulaire de Contact
+- Recherche simple d'une recette
+- Recherche par catégories
+- Contact via un formulaire
+- Page d’erreur (404)
+- Miamer* une recette
 
-- Accéder à sa Page de profil (avec ses dernières recettes publiées)
-- Depuis cette Page :
-    - Avoir accès à un Carnet de Miams (sa liste de recettes miamées)
-    - Retouver la liste de ses Chefs préférés
-    - Modifier son compte Utilisateur (pseudo, email et avatar)
-    - Faire une recherche simple par mot clé
+*Miamer : similaire aux favoris
+
+## Pré-requis:
+
+- [Apache](https://httpd.apache.org/)
+- [Composer](https://getcomposer.org/)
+
+## Langages utilisés 
+
+- [Symfony](https://fr.reactjs.org/)
+---
+
+Scripts
+-------
+
+```sh
+# Installer les dépendances :
+
+	$ composer installl
+	
+# Lancez le serveur :
+
+	$ php -S 0.0.0.0:8080 -t public
+
+# Commande utile :
+
+	$ php bin/console cache:clear // videz les caches 
+	
+	$ php bin/console lexik:jwt:generate-keypair --overwrite // à la première installation
+
+
+```
+
+-------
+
+
+## Auteurs
+
+* **Theneau Maxime** _alias_ [@MaximeTheneau](https://github.com/MaximeTheneau)
+
+* **Loïc Maurin** _alias_ [@LoicMaurin](https://github.com/LoicMAURIN)
+
+* **Pauline Thomelin** _alias_ [@paulinethomelin ](https://github.com/paulinethomelin)
+
+* **Nathalie Tournon** _alias_ [@NathalieTournon ](https://github.com/NathalieTournon)
+
+* **Adrien Pinilla** _alias_ [@AdrienPinilla ](https://github.com/AdrienPinilla)
 
 
 
 
-Une fois vos recettes mises en ligne, tout le monde pourra les ajouter dans ses favoris et ne plus jamais perdre cette fameuse recette de lasagnes !
