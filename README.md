@@ -36,7 +36,7 @@ Avec O’Miam le réseau social des recettes de cuisine, retrouverez facilement 
 Scripts
 -------
 
-```sh
+
 # Installer les dépendances :
 
 	$ composer install
@@ -44,7 +44,7 @@ Scripts
 # Lancez le serveur :
 
 	$ php -S 0.0.0.0:8080 -t public
-```
+
 
 ### Commandes utiles :
 
