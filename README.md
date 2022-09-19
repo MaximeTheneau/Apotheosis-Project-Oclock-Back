@@ -44,14 +44,13 @@ Scripts
 # Lancez le serveur :
 
 	$ php -S 0.0.0.0:8080 -t public
-
 ```
 
 # Commande utile :
 
-	`php bin/console cache:clear` : videz les caches 
+``` php bin/console cache:clear ``` : videz les caches 
 	
-	`php bin/console lexik:jwt:generate-keypair --overwrite` : à la première installation
+	` php bin/console lexik:jwt:generate-keypair --overwrite` : à la première installation
 
 
 
