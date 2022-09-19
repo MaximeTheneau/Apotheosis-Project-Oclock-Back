@@ -31,10 +31,6 @@ Avec O’Miam le réseau social des recettes de cuisine, retrouverez facilement 
 ## Langages utilisés 
 
 - [Symfony](https://fr.reactjs.org/)
----
-
-Scripts
--------
 
 
 # Installer les dépendances :
