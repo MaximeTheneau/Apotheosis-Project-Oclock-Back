@@ -23,7 +23,6 @@ class RecipeIngredient
 
     /**
      * @ORM\Column(type="string", length=32)
-     * 
      * @Groups("api_recipes_read")
      */
     private $unit;

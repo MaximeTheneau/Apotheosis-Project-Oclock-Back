@@ -68,3 +68,9 @@ Avec O’Miam le réseau social des recettes de cuisine, retrouverez facilement 
 
 
 
+            $email = (new Email())
+                ->to('max.the.guymauve@gmail.com')
+                ->from('max.the.guymauve@gmail.com')
+                ->subject('New comment posted')
+                ->text('emails/comment_notification.html.twig');
+            $mailer->send($email);

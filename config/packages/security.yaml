@@ -44,8 +44,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/contact, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/contact/, roles: PUBLIC_ACCESS }
+        - { path: ^/api/contact/new, roles: PUBLIC_ACCESS, methods: POST}
+
 
         - { path: ^/back/user*, roles: ROLE_ADMIN }
 

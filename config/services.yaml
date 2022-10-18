@@ -8,6 +8,8 @@ parameters:
     app.sourcesDir : '%env(resolve:OMIAM_SOURCESDIR)%' 
     app.usersImageDir : '%env(resolve:OMIAM_USERIMAGE_DIR)%'
     app.recipesImageDir : '%env(resolve:OMIAM_RECIPEIMAGE_DIR)%'
+    default_admin_email: theneau.maxime@gmail.com
+
 services:
     # default configuration for services in *this* file
     _defaults:

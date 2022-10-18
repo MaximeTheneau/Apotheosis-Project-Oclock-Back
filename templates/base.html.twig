@@ -69,6 +69,9 @@
                             <li class="nav-item">
 								<a class="nav-link {% if 'comment' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_comment_index') }}">Comments</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link {% if 'contact' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_contact_index') }}">Contact</a>
+							</li>
 						</ul>
 					</div>
 

@@ -66,26 +66,5 @@ class HomeController extends ApiController
         return $this->json200($data, "api_recipes_browse");
     }
 
-    /**
-     * @Route("/api/contact", name="app_api_contact", methods={"POST"})
-     *
-     */
-    public function contact(Request $request): JsonResponse
-    {
-        $info = json_decode($request->getContent());
 
-        // dd($info->content);
-
-        $email = (new Email())
-            ->from($info->email)
-            ->to('contact@omiam.com')
-            ->subject($info->subject)
-            ->text($info->content);
-
-        $this->mailer->send($email);
-
-        return $this->json([
-            'message' => 'Votre mail a bien été envoyé'
-        ], 200);
-    }
 }
