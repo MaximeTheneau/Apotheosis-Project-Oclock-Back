@@ -64,13 +64,3 @@ Avec O’Miam le réseau social des recettes de cuisine, retrouverez facilement 
 * **Nathalie Tournon** _alias_ [@NathalieTournon ](https://github.com/NathalieTournon)
 
 * **Adrien Pinilla** _alias_ [@AdrienPinilla ](https://github.com/AdrienPinilla)
-
-
-
-
-            $email = (new Email())
-                ->to('max.the.guymauve@gmail.com')
-                ->from('max.the.guymauve@gmail.com')
-                ->subject('New comment posted')
-                ->text('emails/comment_notification.html.twig');
-            $mailer->send($email);
