@@ -17,7 +17,6 @@ class Comment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * 
      * @Groups("api_recipes_read")
      */
     private $id;

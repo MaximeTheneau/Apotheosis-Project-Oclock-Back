@@ -180,7 +180,7 @@ class AppFixtures extends Fixture
             $basePath = $this->kernel->getProjectDir();
 
             // Generate picture's url to set picture's recipe
-            $newRecipe->setPicture("http://localhost/Omiam-Back/public/omiam/sources/images/recipe/recipe_".$recipeId.".jpg");
+            $newRecipe->setPicture("https://back.omiam-preprod.fr/omiam/sources/omiam/sources/images/recipe/recipe_".$recipeId.".jpg");
             $recipeId++;
 
             foreach ($recipe['recipeIngredients'] as $ingredient) {

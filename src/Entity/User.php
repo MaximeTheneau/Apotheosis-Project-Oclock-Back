@@ -33,7 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * 
      * @Groups("api_users_add_edit")
      * @Groups("api_users_read_self")
      */
@@ -52,10 +51,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=64, unique=true)
-     * 
      * @Groups("api_recipes_browse")
      * @Groups("api_recipes_read")
-     * 
      * @Groups("api_users_add_edit")
      * @Groups("api_users_read")
      * @Groups("api_users_read_self")

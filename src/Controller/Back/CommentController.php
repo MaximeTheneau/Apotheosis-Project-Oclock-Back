@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/back/comment")
@@ -17,6 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentController extends AbstractController
 {
     /**
+     * Comment list
+     * @Security("is_granted('ROLE_MANAGER')")
      * @Route("/", name="app_back_comment_index", methods={"GET"})
      */
     public function index(CommentRepository $commentRepository): Response

@@ -58,8 +58,6 @@ class UserService
             $urlPicture .= 'default/user.jpg';
         } else {
             $urlPicture .= 'avatar_'.$user->getId().'.jpg';
-
-            // $file->move('/var/www/html/omiam/current/public/sources/images/user/', 'avatar_'.$user->getId().'.jpg');
             $file->move($this->projectDir . $this->sourcesDir . $this->usersImageDir, 'avatar_'.$user->getId().'.jpg');
         }
 

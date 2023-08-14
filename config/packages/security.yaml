@@ -44,29 +44,24 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/contact/, roles: PUBLIC_ACCESS }
-        - { path: ^/api/contact/new, roles: PUBLIC_ACCESS, methods: POST}
+        - { path: ^/api/login, roles: PUBLIC_ROLES }
+        
+        - { path: ^/api/contact/new, roles: PUBLIC_ROLES , methods: POST}
 
+        - { path: ^/api/recipes*, roles: ROLE_USER , methods: POST}
+
+        - { path: ^/back/recipe*, roles: ROLE_USER }
+
+        - { path: ^/back/ingredients*, roles: ROLE_USER }        
+
+        - { path: ^/back/comment*, roles: ROLE_MANAGER}
 
         - { path: ^/back/user*, roles: ROLE_ADMIN }
 
-        - { path: ^/back/recipe/\d+/edit, roles: ROLE_ADMIN, methods: POST }
-
-        - { path: ^/back/comment/\d+, roles: ROLE_MANAGER, methods: POST }
-
-        - { path: ^/back/\D+/\d+, roles: ROLE_ADMIN, methods: POST }
-
-        - { path: ^/back/*, roles: ROLE_MANAGER }
-        
-        # - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-
     role_hierarchy:
-        # ADMIN ait les mêmes droits que MANAGER        
+        # ADMIN > MANAGER        
         ROLE_ADMIN : ROLE_MANAGER
-        # MANAGER ait les mêmes droits que USER
+        # MANAGER > USER
         ROLE_MANAGER : ROLE_USER
         
 when@test:

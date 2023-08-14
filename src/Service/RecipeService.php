@@ -34,32 +34,32 @@ class RecipeService
 
     public function setPicture(Recipe $recipe, Request $request, ?File $file)
     {
-        $urlPicture = 'http://localhost/Omiam-Back/public/omiam/sources/images/recipe/';
+        $urlPicture = 'https://back.omiam-preprod.fr/omiam/sources/images/recipe/';
 
         if (!$file) {
             $this->deletePicture($recipe);
             switch ($recipe->getCategory()->getId()) {
                 case '1':
-                    $urlPicture .= 'defaults/drink.jpg';
+                    $urlPicture .= 'defaults/drink.png';
                     break;
 
                 case '2':
-                    $urlPicture .= 'defaults/entre.jpg';
+                    $urlPicture .= 'defaults/entre.png';
                     break;
 
                 case '3':
-                    $urlPicture .= 'defaults/dish.jpg';
+                    $urlPicture .= 'defaults/dish.png';
                     break;
 
                 case '4':
-                    $urlPicture .= 'defaults/cake.jpg';
+                    $urlPicture .= 'defaults/cake.png';
                     break;
             }
         } else {
-            $urlPicture .= 'recipe_'.$recipe->getId().'.jpg';
+            $urlPicture .= 'recipe_'.$recipe->getId().'.webp';
+            $destinationDirectory = $this->projectDir . $this->sourcesDir . $this->recipesImageDir;
 
             $file->move($this->projectDir . $this->sourcesDir . $this->recipesImageDir, 'recipe_'.$recipe->getId().'.jpg');
-            // $file->move('/var/www/html/projet-11-omiam-back/public/sources/images/recipe/', 'recipe_'.$recipe->getId().'.jpg'); //for dev in localhost
         }
 
         $recipe->setPicture($urlPicture);

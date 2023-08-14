@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/back/user")
@@ -26,13 +27,12 @@ class UserController extends AbstractController
         $this->userService = $userService;
     }
     /**
+     * User list
+     * @Security("is_granted('ROLE_ADMIN')")
      * @Route("/", name="app_back_user_index", methods={"GET"})
      */
     public function index(UserRepository $userRepository): Response
     {
-        // if (!$this->isGranted('ROLE_ADMIN')){
-        //     return $this->render('back/error403.html.twig');
-        // };
 
         return $this->render('back/user/index.html.twig', [
             'users' => $userRepository->findAll(),
@@ -44,6 +44,10 @@ class UserController extends AbstractController
      */
     public function new(Request $request, UserRepository $userRepository): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')){
+            return $this->render('back/error403.html.twig');
+        }
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -71,6 +75,10 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')){
+            return $this->render('back/error403.html.twig');
+        }
+
         return $this->render('back/user/show.html.twig', [
             'user' => $user,
         ]);
@@ -81,6 +89,10 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')){
+            return $this->render('back/error403.html.twig');
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -112,6 +124,9 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')){
+            return $this->render('back/error403.html.twig');
+        }
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $this->userService->deletePicture($user);
             $userRepository->remove($user, true);

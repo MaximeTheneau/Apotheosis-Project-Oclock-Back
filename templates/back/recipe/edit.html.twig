@@ -3,11 +3,11 @@
 {% block title %}Edit Recipe{% endblock %}
 
 {% block body %}
-    <h1>Edit Recipe</h1>
+    <h1>Modifier</h1>
 
-    {{ include('back/recipe/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('back/recipe/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_back_recipe_index') }}" class="btn btn-info mt-1">back to list</a>
+    <a href="{{ path('app_back_recipe_index') }}" class="btn btn-info mt-1">Retour à la list</a>
 
-    {{ include('back/recipe/_delete_form.html.twig') }}
+    {{ include('back/recipe/_delete_form.html.twig', {'button_label': 'Supprimer'}) }}
 {% endblock %}

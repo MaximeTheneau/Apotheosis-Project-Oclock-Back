@@ -39,40 +39,49 @@
 
 				<nav class="navbar navbar-expand-lg navbar-dark"  style="background-color: #007172;">
                 <div class="container-fluid">
-					<a href="{{ path('app_back_home') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none header-logo">
-						<img src="{{asset('Omiam.jpg')}}" height="175" alt="Logo O'Miam">
-						
-					</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav justify-content-end custom-text">
 							<li class="nav-item">
-								<a class="nav-link {% if 'home' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_home') }}">Home</a>
+								<a class="nav-link {% if 'home' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_home') }}">Accueil</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link {% if 'user' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_user_index') }}">Users</a>
-							</li>
+							{% if is_granted('ROLE_USER') %}
                             <li class="nav-item">
-								<a class="nav-link {% if 'recipe' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_recipe_index') }}">Recipes</a>
+								<a class="nav-link {% if 'recipe' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_recipe_index') }}">Recettes</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link {% if 'ingredient' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_ingredient_index') }}">Ingredients</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link {% if 'groceries' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_recipe_ingredient_index') }}">Groceries</a>
-							</li>
                             <li class="nav-item">
 								<a class="nav-link {% if 'category' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_category_index') }}">Categories</a>
 							</li>
+							{% endif %}
+							
+							{% if is_granted('ROLE_MANAGER') %}
                             <li class="nav-item">
-								<a class="nav-link {% if 'comment' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_back_comment_index') }}">Comments</a>
+								<a 
+									class="nav-link {% if 'comment' in app.request.getPathInfo %} active {% endif %}"
+									href="{{ path('app_back_comment_index') }}"
+								>
+									Commentaires
+								</a>
 							</li>
+							{% endif %}
+
+							{% if is_granted('ROLE_ADMIN') %}
 							<li class="nav-item">
-								<a class="nav-link {% if 'contact' in app.request.getPathInfo %} active {% endif %}" href="{{ path('app_contact_index') }}">Contact</a>
+								<a 
+									class="nav-link {% if 'user' in app.request.getPathInfo %} active {% endif %}"
+									href="{{ path('app_back_user_index') }}"
+								>
+									Utilisateurs
+								</a>
 							</li>
+							{% endif %}
 						</ul>
+						
 					</div>
 
 					<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -84,7 +93,6 @@
 							<ul class="list-unstyled">
 								<li>
 									<span style="color:white;">{{ app.user.pseudo }}</span>
-									<i class="bi bi-person-square"></i>
 								</li>									
 								<li><a style="text-decoration:none; color:white;" href="{{ path('app_logout')}}">Déconnexion</a></li>
 							</ul>

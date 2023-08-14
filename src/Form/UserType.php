@@ -47,9 +47,11 @@ class UserType extends AbstractType
                     ] );
                 }
             })
+            // Pseudo User
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo de l\'uitlisateur'
             ])
+            // Avatar User
             ->add('avatar', FileType::class , [
                 'mapped' => false,
                 'required' => false

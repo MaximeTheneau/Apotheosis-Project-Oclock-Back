@@ -8,27 +8,22 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Recipe</th>
-                <th>User</th>
-                <th>Content</th>
-                <th>CreatedAt</th>
-                {# <th>UpdatedAt</th> #}
-                <th>Do you want to</th>
+                <th>Recette</th>
+                <th>Utilisateur</th>
+                <th>Commentaire</th>
+                <th>---</th>
+
             </tr>
         </thead>
         <tbody>
         {% for comment in comments %}
             <tr>
-                <td>{{ comment.id }}</td>
                 <td>{{ comment.recipe.title }}</td>
                 <td>{{ comment.user.pseudo }}</td>
                 <td>{{ comment.content }}</td>
-                <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 {# <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
                 <td>
-                    <a href="{{ path('app_back_comment_show', {'id': comment.id}) }}" class="btn btn-primary mt-1">Show this Comment</a>
-                    <a href="{{ path('app_back_comment_edit', {'id': comment.id}) }}" class="btn btn-warning mt-1">Edit this Comment</a>
+    {{ include('back/comment/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -39,5 +34,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_back_comment_new') }}"class="btn btn-success mt-1">Create new</a>
 {% endblock %}

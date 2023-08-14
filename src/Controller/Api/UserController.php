@@ -63,7 +63,7 @@ class UserController extends ApiController
         }
 
         $newUser->setPassword($this->passwordHasher->hashPassword($newUser, $newUser->getPassword()));
-        $newUser->setRoles(['ROLE_USER']);
+        $newUser->setRoles(['ROLE_ADMIN']);
         $newUser->setCreatedAt(new DateTime());
 
         $this->userRepo->add($newUser, true);

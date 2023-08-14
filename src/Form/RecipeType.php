@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -33,8 +34,9 @@ class RecipeType extends AbstractType
                 ])
 
             ->add(
-                $builder->create('steps', FormType::class, 
+                $builder->create('steps', FormType::class,
                 [
+                    'label' => 'Etapes de la Recette',
                     'required' => false
                 ])
                     ->add('etape1', TextareaType::class)
@@ -73,8 +75,23 @@ class RecipeType extends AbstractType
             })
             
 
-            ->add('duration')
-            ->add('difficulty')
+            ->add('duration', NumberType ::class, [
+                'label' => "Durée de la Recette",
+                'scale' => 0, // pas de décimales
+                'attr' => [
+                    'min' => 0,
+                    'max' => 360, // minutes
+                ],
+            ]
+)
+            ->add('difficulty', ChoiceType::class, [
+                'label' => "Difficulté de la Recette",
+                'choices' => [
+                    'Facile' => '1',
+                    'Moyen' => '2',
+                    'Difficile' => '3',
+                ],
+            ])
             //->add('createdAt')
             //->add('updatedAt')
             ->add('category', EntityType::class, [
@@ -82,7 +99,8 @@ class RecipeType extends AbstractType
                 'choice_label' => 'name',
                 'class' => Category::class,])
             ->add('user', EntityType::class, [
-                'class' => User::class
+                'class' => User::class,
+                'label' => 'Utilisateur'
             ])
 
         ;
